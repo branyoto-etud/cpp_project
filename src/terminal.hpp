@@ -20,7 +20,8 @@ public:
 
     [[nodiscard]] bool in_use() const { return current_aircraft != nullptr; }
     [[nodiscard]] bool is_servicing() const {
-        return current_aircraft->is_low_on_fuel() || service_progress < SERVICE_CYCLES;
+        return service_progress < SERVICE_CYCLES
+        || (current_aircraft != nullptr && current_aircraft->is_low_on_fuel());
     }
     void assign_craft(Aircraft& aircraft) { current_aircraft = &aircraft; }
 
@@ -40,7 +41,7 @@ public:
     }
 
     void refill_aircraft_if_needed(unsigned& fuel_stock) {
-        if (current_aircraft->is_low_on_fuel())
+        if (current_aircraft != nullptr && current_aircraft->is_low_on_fuel())
             current_aircraft->refill(fuel_stock);
     }
 

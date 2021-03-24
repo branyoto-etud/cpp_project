@@ -1,13 +1,14 @@
 #pragma once
 
-#include "GL/displayable.hpp"
 #include "GL/dynamic_object.hpp"
-#include "GL/texture.hpp"
+#include "AircraftManager.hpp"
+#include "GL/displayable.hpp"
 #include "airport_type.hpp"
-#include "geometry.hpp"
+#include "GL/texture.hpp"
 #include "img/image.hpp"
-#include "runway.hpp"
+#include "geometry.hpp"
 #include "terminal.hpp"
+#include "runway.hpp"
 #include "tower.hpp"
 
 #include <vector>
@@ -23,7 +24,7 @@ private:
     Tower tower;
     unsigned fuel_stock = 0;
     unsigned ordered_fuel = 0;
-    unsigned next_refill_time = 0;
+    double next_refill_time = 0;
 
     // reserve a terminal
     // if a terminal is free, return
@@ -67,10 +68,17 @@ public:
 
     void move(double alpha) override
     {
-        for (auto& t : terminals)
-        {
-            t.move(alpha);
+        std::for_each(terminals.begin(), terminals.end(), [alpha](Terminal& t){t.move(alpha);});
+        if (next_refill_time <= 0) {
+            const auto old = ordered_fuel;
+            fuel_stock += ordered_fuel;
+            ordered_fuel = std::min(FUEL_TANKER, manager.get_required_fuel());
+            next_refill_time = FUEL_REFILL_FREQUENCY;
+            std::cout << "Received : " << old << " | Stock : " << fuel_stock << " | Ordered : " << ordered_fuel << std::endl;
+        } else {
+            next_refill_time -= alpha;
         }
+        std::for_each(terminals.begin(), terminals.end(), [this](Terminal& t){t.refill_aircraft_if_needed(fuel_stock);});
     }
 
     friend class Tower;

@@ -151,6 +151,7 @@ bool Aircraft::operator>=(const Aircraft &rhs) const {
 
 void Aircraft::refill(unsigned int& fuel_stock) {
     const auto needed = get_missing_fuel();
+    if (fuel_stock == 0) return;
     if (fuel_stock < needed) {
         std::cout << "Refuelling " << fuel_stock << ". Aircraft not full." << std::endl;
         fuel += fuel_stock;

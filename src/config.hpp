@@ -32,6 +32,8 @@ constexpr bool SILENT_TERMINAL = false;
 // Fuel data
 constexpr unsigned MAXIMUM_FUEL = 3'000;
 constexpr unsigned MINIMUM_FUEL = 200;
+constexpr unsigned FUEL_TANKER = 5'000;
+constexpr unsigned FUEL_REFILL_FREQUENCY = 100;
 
 
 
