@@ -92,59 +92,31 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
 // A destruction appear in 2 cases: No fuel left and lifting off.
 bool Aircraft::move(double alpha)
 {
-    if (fuel <= 0) return true;
-    if (!is_on_ground()) fuel -= alpha;
-    if (waypoints.empty())
-        waypoints = control.get_instructions(*this);
-    if (is_circling()) {
-        auto wp = control.reserve_terminal(*this);
-        if (!wp.empty()) {
-            waypoints = wp;
-        }
+    if (fuel <= 0) return true;                                             // Crash when no fuel
+    if (!is_on_ground()) fuel -= alpha;                                     // Decrease fuel level
+    if (waypoints.empty()) waypoints = control.get_instructions(*this);     // Update path when empty
+    if (is_circling()) {                                                    // If making circles
+        auto wp = control.reserve_terminal(*this);                          // Try to update the path
+        if (!wp.empty()) waypoints = wp;                                    // If path to terminal update the path
     }
-    bool is_lifting = false;
-    if (!is_at_terminal)
+    if (is_at_terminal) return false;                                       // If serviced don't move
+    turn_to_waypoint();                                                     // Rotate
+    pos += speed * (float)alpha;                                            // Move
+
+    if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)  // If close enough, remove the waypoint
     {
-        turn_to_waypoint();
-        // move in the direction of the current speed
-        pos += speed * (float)alpha;
-
-        // if we are close to our next waypoint, stike if off the list
-        if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)
-        {
-            if (waypoints.front().is_at_terminal())
-            {
-                arrive_at_terminal();
-            }
-            else
-            {
-                is_lifting = operate_landing_gear();
-            }
-            waypoints.pop_front();
-        }
-
-        if (is_on_ground())
-        {
-            if (!landing_gear_deployed)
-            {
-                using namespace std::string_literals;
-                throw AircraftCrash { flight_number + " crashed into the ground"s };
-            }
-        }
-        else
-        {
-            // if we are in the air, but too slow, then we will sink!
-            const float speed_len = speed.length();
-            if (speed_len < SPEED_THRESHOLD)
-            {
-                pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
-            }
-        }
-
-        // update the z-value of the displayable structure
-        GL::Displayable::z = pos.x() + pos.y();
+        if (waypoints.front().is_at_terminal()) arrive_at_terminal();               // If at terminal -> service
+        else if (operate_landing_gear()) return true;                               // If not at terminal and lifting off -> destroy
+        waypoints.pop_front();                                                      // Remove waypoint
     }
-    return is_lifting;
+
+    if (is_on_ground() && !landing_gear_deployed)                                   // Invalid state caused by speed
+        throw AircraftCrash { flight_number + " crashed into the ground" };
+    if (!is_on_ground() && speed.length() < SPEED_THRESHOLD)                        // If flying to slow -> sink
+        pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed.length());
+
+    GL::Displayable::z = pos.x() + pos.y();                                         // Update z
+    return false;
 }
 
 void Aircraft::display() const
