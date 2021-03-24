@@ -19,7 +19,11 @@ private:
     const Point3D pos;
     const GL::Texture2D texture;
     std::vector<Terminal> terminals;
+    AircraftManager& manager;
     Tower tower;
+    unsigned fuel_stock = 0;
+    unsigned ordered_fuel = 0;
+    unsigned next_refill_time = 0;
 
     // reserve a terminal
     // if a terminal is free, return
@@ -46,12 +50,14 @@ private:
     Terminal& get_terminal(const size_t terminal_num) { return terminals.at(terminal_num); }
 
 public:
-    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, const float z_ = 1.0f) :
+    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, AircraftManager& _manager,
+            const float z_ = 1.0f) :
         GL::Displayable { z_ },
         type { type_ },
         pos { pos_ },
         texture { image },
         terminals { type.create_terminals() },
+        manager {_manager},
         tower { *this }
     {}
 
