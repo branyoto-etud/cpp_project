@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="tower_sim"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/branyoto/Desktop/C++/All TP redone/cpp_project/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/branyoto/Desktop/C++/All TP redone/cpp_project/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/branyoto/Desktop/C++/All TP redone/cpp_project/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="tower">
+				<Option output="/home/branyoto/Desktop/C++/All TP redone/cpp_project/cmake-build-debug/tower" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/branyoto/Desktop/C++/All TP redone/cpp_project/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DGLUT_DISABLE_ATEXIT_HACK"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 tower"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="tower/fast">
+				<Option output="/home/branyoto/Desktop/C++/All TP redone/cpp_project/cmake-build-debug/tower" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/branyoto/Desktop/C++/All TP redone/cpp_project/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DGLUT_DISABLE_ATEXIT_HACK"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 tower/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/home/branyoto/Desktop/C++/All\ TP\ redone/cpp_project/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/AircraftFactory.cpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/AircraftFactory.h">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/AircraftManager.cpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/AircraftManager.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/GL/displayable.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/GL/dynamic_object.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/GL/opengl_interface.cpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/GL/opengl_interface.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/GL/texture.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/aircraft.cpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/aircraft.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/aircraft_types.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/airport.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/airport_type.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/config.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/geometry.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/img/image.cpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/img/image.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/img/media_path.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/img/stb_image.h">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/main.cpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/runway.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/terminal.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/tower.cpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/tower.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/tower_sim.cpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/tower_sim.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/src/waypoint.hpp">
+			<Option target="tower"/>
+		</Unit>
+		<Unit filename="/home/branyoto/Desktop/C++/All TP redone/cpp_project/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
