@@ -6,9 +6,9 @@
 
 AircraftFactory::AircraftFactory()
 {
-    aircraft_types.emplace_back(std::make_unique<AircraftType>( .02f, .05f, .02f, MediaPath { "l1011_48px.png" } ));
-    aircraft_types.emplace_back(std::make_unique<AircraftType>( .02f, .05f, .02f, MediaPath { "b707_jat.png"} ));
-    aircraft_types.emplace_back(std::make_unique<AircraftType>( .02f, .1f, .02f, MediaPath { "concorde_af.png" } ));
+    aircraft_types.emplace_back(std::make_unique<AircraftType>( .02f, .05f, .02f, .5f, 3'000, MediaPath { "l1011_48px.png" } ));
+    aircraft_types.emplace_back(std::make_unique<AircraftType>( .02f, .05f, .02f, .2f, 2'500, MediaPath { "b707_jat.png"} ));
+    aircraft_types.emplace_back(std::make_unique<AircraftType>( .02f, .1f, .02f, 1.f, 5'000, MediaPath { "concorde_af.png" } ));
 }
 std::unique_ptr<Aircraft> AircraftFactory::create_aircraft(Tower& tower)
 {
@@ -60,7 +60,13 @@ std::unique_ptr<AircraftType> AircraftFactory::parse_line(std::string& mediaPath
         const float acc = std::stof (mediaPath, &pos);
         mediaPath.erase(0, pos+1);
 
-        return std::make_unique<AircraftType>(gSpeed, aSpeed, acc, MediaPath {mediaPath});
+        const float consumption = std::stof (mediaPath, &pos);
+        mediaPath.erase(0, pos+1);
+
+        const int fuel = std::stoi (mediaPath, &pos);
+        mediaPath.erase(0, pos+1);
+
+        return std::make_unique<AircraftType>(gSpeed, aSpeed, acc, consumption, fuel, MediaPath {mediaPath});
     } catch (const std::invalid_argument& e) {
         throw std::invalid_argument{"File format invalid. The should be 'float float float string"};
     }

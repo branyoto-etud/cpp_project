@@ -86,14 +86,14 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
     else waypoints.push_back(wp);
 }
 
-//(-1.5, -1.5, 0.5, ) (1.5, -1.5, 0.5, ) (1.5, 1.5, 0.5, ) (-1.5, 1.5, 0.5, )
-
 // Move the aircraft and return True if the aircraft need to be destroyed
 // A destruction appear in 2 cases: No fuel left and lifting off.
 bool Aircraft::move(double alpha)
 {
     if (fuel <= 0) return true;                                             // Crash when no fuel
-    if (!is_on_ground()) fuel -= alpha;                                     // Decrease fuel level
+    if (!is_on_ground()) {                                                  // Decrease fuel level
+        fuel -= alpha * type.fuel_consumption * (speed.length() / max_speed());
+    }
     if (waypoints.empty()) waypoints = control.get_instructions(*this);     // Update path when empty
     if (is_circling()) {                                                    // If making circles
         auto wp = control.reserve_terminal(*this);                          // Try to update the path

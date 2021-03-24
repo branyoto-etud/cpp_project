@@ -30,8 +30,6 @@ constexpr size_t DEFAULT_WINDOW_HEIGHT = 600;
 // Set to true to silent the terminals
 constexpr bool SILENT_TERMINAL = false;
 // Fuel data
-constexpr unsigned MAXIMUM_FUEL = 3'000;
-constexpr unsigned MINIMUM_FUEL = 200;
 constexpr unsigned FUEL_TANKER = 5'000;
 constexpr unsigned FUEL_REFILL_FREQUENCY = 100;
 
