@@ -54,14 +54,15 @@ public:
         pos { pos_ },
         speed { speed_ },
         control { control_ },
-        fuel {static_cast<double>(150. + std::rand() % 2'850)}
+        fuel {(double)(MINIMUM_FUEL + std::rand() % MAXIMUM_FUEL - MINIMUM_FUEL)}
     {
         speed.cap_length(max_speed());
     }
 
     [[nodiscard]] const std::string& get_flight_num() const { return flight_number; }
     [[nodiscard]] float distance_to(const Point3D& p) const { return pos.distance_to(p); }
-    [[nodiscard]] bool is_low_on_fuel() const { return fuel < 200; }
+    [[nodiscard]] bool is_low_on_fuel() const { return fuel < MINIMUM_FUEL; }
+    [[nodiscard]] unsigned get_missing_fuel() const { return MAXIMUM_FUEL - fuel; }
 
     [[nodiscard]] bool is_circling() const;
     [[nodiscard]] bool has_terminal() const;
