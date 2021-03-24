@@ -61,7 +61,7 @@ public:
 
     [[nodiscard]] const std::string& get_flight_num() const { return flight_number; }
     [[nodiscard]] float distance_to(const Point3D& p) const { return pos.distance_to(p); }
-    [[nodiscard]] double get_fuel() const { return fuel; }
+    [[nodiscard]] bool is_low_on_fuel() const { return fuel < 200; }
 
     [[nodiscard]] bool is_circling() const;
     [[nodiscard]] bool has_terminal() const;
