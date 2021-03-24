@@ -66,6 +66,7 @@ public:
 
     [[nodiscard]] bool is_circling() const;
     [[nodiscard]] bool has_terminal() const;
+    void refill(unsigned&);
 
     bool operator<(const Aircraft &rhs) const;
     bool operator>(const Aircraft &rhs) const;
