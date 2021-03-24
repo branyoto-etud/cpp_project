@@ -1,3 +1,0 @@
-/home/branyoto/Desktop/C++/All TP redone/cpp_project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/branyoto/Desktop/C++/All TP redone/cpp_project/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/branyoto/Desktop/C++/All TP redone/cpp_project/cmake-build-debug/CMakeFiles/tower.dir
