@@ -18,7 +18,6 @@ public:
     void move(double) override;
     unsigned count_aircraft_on_airline(const std::string_view&);
 
-
 private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
 };

@@ -129,5 +129,22 @@ bool Aircraft::is_circling() const
 }
 bool Aircraft::has_terminal() const
 {
-    return waypoints.back().is_at_terminal();
+    return !waypoints.empty() && waypoints.back().is_at_terminal();
+}
+
+bool Aircraft::operator<(const Aircraft &rhs) const {
+    if (has_terminal() != rhs.has_terminal()) return has_terminal();
+    return fuel < rhs.fuel;
+}
+
+bool Aircraft::operator>(const Aircraft &rhs) const {
+    return rhs < *this;
+}
+
+bool Aircraft::operator<=(const Aircraft &rhs) const {
+    return !(rhs < *this);
+}
+
+bool Aircraft::operator>=(const Aircraft &rhs) const {
+    return !(*this < rhs);
 }

@@ -12,6 +12,8 @@ AircraftManager::~AircraftManager() = default;
 
 void AircraftManager::move(const double alpha)
 {
+    std::sort(aircrafts.begin(), aircrafts.end(),
+              [](const std::unique_ptr<Aircraft>& a, const std::unique_ptr<Aircraft>& b){return *a < *b;});
     aircrafts.erase(std::remove_if(aircrafts.begin(), aircrafts.end(),
                   [alpha](const std::unique_ptr<Aircraft>& a){return a->move(alpha);}), aircrafts.end());
 }
