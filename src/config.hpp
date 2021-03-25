@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 const MediaPath one_lane_airport_sprite_path = { "airport_1lane.png" };
-const MediaPath two_lane_airport_sprite_path = { "airport_2lane.png" };
+[[maybe_unused]] const MediaPath two_lane_airport_sprite_path = { "airport_2lane.png" };
 
 // number of cycles needed to service an aircraft at a terminal
 constexpr unsigned int SERVICE_CYCLES = 40u;

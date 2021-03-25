@@ -18,11 +18,7 @@ TowerSimulation::TowerSimulation(int argc, char** argv) :
     help { (argc > 1) && (std::string { argv[1] } == "--help"s || std::string { argv[1] } == "-h"s) }
 {
     MediaPath::initialize(argv[0]);
-    if (help && argc > 2) {
-        data_path = argv[2];
-    } else if (argc > 1) {
-        data_path = argv[1];
-    }
+    data_path = help && argc > 2 ? argv[2] : argc > 1 ? argv[1] : "";
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     GL::init_gl(argc, argv, "Airport Tower Simulation");
     aircraft_manager = new AircraftManager();
@@ -34,6 +30,7 @@ TowerSimulation::~TowerSimulation()
 {
     delete airport;
     delete aircraft_manager;
+    delete aircraft_factory;
 }
 
 void TowerSimulation::create_random_aircraft()
@@ -73,23 +70,22 @@ void TowerSimulation::display_help()
     std::cout << "This is an airport tower simulator" << std::endl
               << "the following keysstrokes have meaning:" << std::endl;
 
-    for (const auto& [key, action] : GL::keystrokes)
-    {
-        std::cout << key << ' ';
-    }
+    for (const auto& [key, action] : GL::keystrokes) { std::cout << key << ' '; }
     std::cout << std::endl;
 }
 
 void TowerSimulation::init_airport()
 {
+    assert(airport == nullptr);
     airport = new Airport( one_lane_airport, Point3D { 0, 0, 0 },
                             new img::Image { one_lane_airport_sprite_path.get_full_path() }, *aircraft_manager);
-
     GL::move_queue.emplace(airport);
+    assert(airport != nullptr);
 }
 
 void TowerSimulation::launch()
 {
+    assert(airport == nullptr && aircraft_factory == nullptr);
     if (help)
     {
         display_help();

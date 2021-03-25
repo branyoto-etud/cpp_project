@@ -23,11 +23,9 @@ private:
     void display_airline(unsigned);
 
     void init_airport();
-
 public:
-    TowerSimulation(int argc, char** argv);
     ~TowerSimulation();
-
+    TowerSimulation(int argc, char** argv);
     TowerSimulation(const TowerSimulation&) = delete;
     TowerSimulation& operator=(const TowerSimulation&) = delete;
 

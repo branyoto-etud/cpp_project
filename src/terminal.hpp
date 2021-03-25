@@ -14,9 +14,10 @@ private:
     const Point3D pos;
 
 public:
-    explicit Terminal(const Point3D& pos_) : pos { pos_ } {}
+    ~Terminal() override = default;
     Terminal(const Terminal&) = delete;
     Terminal& operator=(const Terminal&) = delete;
+    explicit Terminal(const Point3D& pos_) : pos { pos_ } {}
 
     [[nodiscard]] bool in_use() const { return current_aircraft != nullptr; }
     [[nodiscard]] bool is_servicing() const {
@@ -35,6 +36,7 @@ public:
 
     void finish_service()
     {
+        assert(current_aircraft != nullptr);
         if (is_servicing()) return;
         if (!SILENT_TERMINAL) std::cout << "done servicing " << current_aircraft->get_flight_num() << '\n';
         current_aircraft = nullptr;

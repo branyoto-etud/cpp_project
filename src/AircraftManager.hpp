@@ -10,7 +10,7 @@ class AircraftManager : public GL::DynamicObject
 {
 public:
     AircraftManager();                       // Base Constructor
-    ~AircraftManager() override;             // Destructor
+    ~AircraftManager() override = default;   // Destructor
     AircraftManager(const AircraftManager&) = delete;
     AircraftManager& operator=(const AircraftManager&) = delete;
 
@@ -19,11 +19,10 @@ public:
     unsigned count_aircraft_on_airline(const std::string_view&);
     unsigned get_required_fuel();
     void display_crash_number() const;
-
 private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
     unsigned crash_count = 0;
 
-    void display_aircrafts();
+    [[maybe_unused]] void display_aircrafts();
     bool move_treatment(double, const std::unique_ptr<Aircraft>&);
 };

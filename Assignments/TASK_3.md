@@ -22,16 +22,16 @@ Voici quelques idées :
 |         | A | B | C | D |
 |---------|---|---|---|---|
 |Aircraft | ☑ | ☑ | ☑ | ☑ |
-|ACType   | ☑ | ☑ | ☑ | ☑ | 
-|ACFactory|  |  |  |  | 
-|ACManager|  |  |  |  | 
-|Airport  |  |  |  |  | 
-|APType   |  |  |  |  | 
-|Config   |  |  |  |  | 
-|Geometry |  |  |  |  | 
-|main     |  |  |  |  | 
-|runway   |  |  |  |  | 
-|Terminal |  |  |  |  | 
-|Tower    |  |  |  |  | 
-|TowerSim |  |  |  |  | 
-|Waypoint |  |  |  |  | 
+|ACType   | ☑ | ☑ | ☑ | ☑ |
+|ACFactory| ☑ | ☑ | ☑ | ☑ |
+|ACManager| ☑ | ☑ | ☑ | ☑ |
+|Airport  | ☑ | ☑ | ☑ | ☑ |
+|APType   | ☑ | ☑ | ☑ | ☑ |
+|Config   | ☑ | ☑ | ☑ | ☑ |
+|Geometry | ☑ | ☑ | ☑ | ☑ |
+|main     | ☑ | ☑ | ☑ | ☑ |
+|runway   | ☑ | ☑ | ☑ | ☑ |
+|Terminal | ☑ | ☑ | ☑ | ☑ |
+|Tower    | ☑ | ☑ | ☑ | ☑ |
+|TowerSim | ☑ | ☑ | ☑ | ☑ |
+|Waypoint | ☑ | ☑ | ☑ | ☑ |

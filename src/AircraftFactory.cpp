@@ -9,10 +9,11 @@ AircraftFactory::AircraftFactory()
     aircraft_types.emplace_back(std::make_unique<AircraftType>( .02f, .05f, .02f, .5f, 3'000, MediaPath { "l1011_48px.png" } ));
     aircraft_types.emplace_back(std::make_unique<AircraftType>( .02f, .05f, .02f, .2f, 2'500, MediaPath { "b707_jat.png"} ));
     aircraft_types.emplace_back(std::make_unique<AircraftType>( .02f, .1f, .02f, 1.f, 5'000, MediaPath { "concorde_af.png" } ));
+    assert(aircraft_types.size() == 3);
 }
 std::unique_ptr<Aircraft> AircraftFactory::create_aircraft(Tower& tower)
 {
-    const std::string flight_number = get_flight_number();
+    const std::string flight_number = new_flight_number();
     const float angle       = (std::rand() % 1000) * 2 * 3.141592f / 1000.f; // random angle between 0 and 2pi
     const Point3D start     = Point3D { std::sin(angle), std::cos(angle), 0 } * 3 + Point3D { 0, 0, 2 };
     const Point3D direction = (-start).normalize();
@@ -21,7 +22,7 @@ std::unique_ptr<Aircraft> AircraftFactory::create_aircraft(Tower& tower)
     return std::make_unique<Aircraft>(type, flight_number, start, direction, tower);
 }
 
-std::string AircraftFactory::get_flight_number()
+std::string AircraftFactory::new_flight_number()
 {
     std::string flight_number;
     do {
@@ -42,6 +43,7 @@ AircraftFactory* AircraftFactory::LoadTypes(const MediaPath& media)
 }
 AircraftFactory::AircraftFactory(std::ifstream& input)
 {
+    assert(input.is_open());
     std::string line;
     while (std::getline(input, line)) {
         aircraft_types.emplace_back(parse_line(line));
@@ -71,5 +73,3 @@ std::unique_ptr<AircraftType> AircraftFactory::parse_line(std::string& mediaPath
         throw std::invalid_argument{"File format invalid. The should be 'float float float string"};
     }
 }
-
-AircraftFactory::~AircraftFactory() = default;

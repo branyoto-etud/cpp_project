@@ -33,8 +33,8 @@ private:
     // otherwise, return an empty waypoint-vector and any number
     std::pair<WaypointQueue, size_t> reserve_terminal(Aircraft& aircraft)
     {
-        const auto it =
-            std::find_if(terminals.begin(), terminals.end(), [](const Terminal& t) { return !t.in_use(); });
+        const auto it = std::find_if(terminals.begin(), terminals.end(),
+                [](const Terminal& t) { return !t.in_use(); });
 
         if (!(it != terminals.end())) return { {}, 0u };                     // If no terminal left -> Empty queue and terminal
 
@@ -45,12 +45,33 @@ private:
 
     WaypointQueue start_path(const size_t terminal_number)
     {
+        assert(terminal_number < terminals.size());
         return type.terminal_to_air(pos, 0, terminal_number);
     }
 
-    Terminal& get_terminal(const size_t terminal_num) { return terminals.at(terminal_num); }
+    Terminal& get_terminal(const size_t terminal_number) {
+        assert(terminal_number < terminals.size());
+        return terminals.at(terminal_number);
+    }
+
+    void refuel_all(double alpha) {
+        assert(alpha > 0);
+        if (next_refill_time <= 0) {
+            const auto old = ordered_fuel;
+            fuel_stock += ordered_fuel;
+            ordered_fuel = std::min(FUEL_TANKER, manager.get_required_fuel());
+            next_refill_time = FUEL_REFILL_FREQUENCY;
+            std::cout << "Received : " << old << " | Stock : " << fuel_stock << " | Ordered : " << ordered_fuel << std::endl;
+        } else {
+            next_refill_time -= alpha;
+        }
+        std::for_each(terminals.begin(), terminals.end(), [this](Terminal& t){t.refill_aircraft_if_needed(fuel_stock);});
+    }
 
 public:
+    ~Airport() override = default;
+    Airport(const Airport&) = delete;
+    Airport& operator=(const Airport&) = delete;
     Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, AircraftManager& _manager,
             const float z_ = 1.0f) :
         GL::Displayable { z_ },
@@ -68,17 +89,9 @@ public:
 
     void move(double alpha) override
     {
+        assert(alpha);
         std::for_each(terminals.begin(), terminals.end(), [alpha](Terminal& t){t.move(alpha);});
-        if (next_refill_time <= 0) {
-            const auto old = ordered_fuel;
-            fuel_stock += ordered_fuel;
-            ordered_fuel = std::min(FUEL_TANKER, manager.get_required_fuel());
-            next_refill_time = FUEL_REFILL_FREQUENCY;
-            std::cout << "Received : " << old << " | Stock : " << fuel_stock << " | Ordered : " << ordered_fuel << std::endl;
-        } else {
-            next_refill_time -= alpha;
-        }
-        std::for_each(terminals.begin(), terminals.end(), [this](Terminal& t){t.refill_aircraft_if_needed(fuel_stock);});
+        refuel_all(alpha);
     }
 
     friend class Tower;

@@ -14,19 +14,20 @@ class Terminal;
 class Tower
 {
 private:
-    using AircraftToTerminal      = std::unordered_map<const Aircraft*, size_t>;
-    using AircraftAndTerminalIter = AircraftToTerminal::iterator;
+    using AircraftToTerminal = std::unordered_map<const Aircraft*, size_t>;
 
     Airport& airport;
     // aircrafts may reserve a terminal
     // if so, we need to save the terminal number in order to liberate it when the craft leaves
     AircraftToTerminal reserved_terminals = {};
 
-    static WaypointQueue get_circle() ;
-
-
+    static WaypointQueue get_circle();
+    WaypointQueue instruction_aux(Aircraft&);
 public:
-    Tower(Airport& airport_) : airport { airport_ } {}
+    ~Tower() = default;
+    Tower(const Tower&) = delete;
+    Tower& operator=(const Tower&) = delete;
+    explicit Tower(Airport& airport_) : airport { airport_ } {}
 
     // produce instructions for aircraft
     WaypointQueue get_instructions(Aircraft& aircraft);

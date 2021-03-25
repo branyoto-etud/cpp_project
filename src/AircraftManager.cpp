@@ -9,9 +9,9 @@ AircraftManager::AircraftManager()
     GL::move_queue.emplace(this);
 }
 
-AircraftManager::~AircraftManager() = default;
-
 bool AircraftManager::move_treatment(const double alpha, const std::unique_ptr<Aircraft>& craft) {
+    assert(alpha > 0);
+    assert(craft != nullptr);
     try {
         return craft->move(alpha);
     } catch (const AircraftCrash& crash) {
@@ -21,7 +21,7 @@ bool AircraftManager::move_treatment(const double alpha, const std::unique_ptr<A
     }
 }
 
-void AircraftManager::display_aircrafts() { // Debug function
+[[maybe_unused]] void AircraftManager::display_aircrafts() { // Debug function
     std::cout << "---" << std::endl;
     std::for_each(aircrafts.begin(), aircrafts.end(), [](const std::unique_ptr<Aircraft>& a){std::cout << *a << std::endl;});
     std::cout << "---" << std::endl;
@@ -29,6 +29,7 @@ void AircraftManager::display_aircrafts() { // Debug function
 
 void AircraftManager::move(const double alpha)
 {
+    assert(alpha > 0);
     std::sort(aircrafts.begin(), aircrafts.end(),
               [](const std::unique_ptr<Aircraft>& a, const std::unique_ptr<Aircraft>& b){return *a < *b;});
 //    display_aircrafts();
@@ -37,6 +38,7 @@ void AircraftManager::move(const double alpha)
 }
 void AircraftManager::add_aircraft(std::unique_ptr<Aircraft> aircraft)
 {
+    assert(aircraft != nullptr);
     aircrafts.emplace_back(std::move(aircraft));
 }
 
@@ -54,5 +56,5 @@ unsigned AircraftManager::get_required_fuel() {
 }
 
 void AircraftManager::display_crash_number() const {
-    std::cout << crash_count << "aircraft have crashed so far." << std::endl;
+    std::cout << crash_count << " aircraft(s) have crashed so far." << std::endl;
 }

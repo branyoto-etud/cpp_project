@@ -13,7 +13,9 @@ struct Point2D
     float values[2] {};
 
     Point2D() {}
+    ~Point2D() = default;
     Point2D(float x, float y) : values { x, y } {}
+    Point2D(const Point2D& o) : values {o.values[0], o.values[1]} {}
 
     float& x() { return values[0]; }
     float x() const { return values[0]; }

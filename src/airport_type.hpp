@@ -17,6 +17,9 @@ private:
     const std::vector<Runway> runways;
 
 public:
+    AirportType& operator=(const AirportType& other) = delete;
+    AirportType(const AirportType&) = delete;
+    ~AirportType() = default;
     AirportType(const Point3D& crossing_pos_, const Point3D& gateway_pos_,
                 std::initializer_list<Point3D> terminal_pos_, std::initializer_list<Runway> runways_) :
         crossing_pos { crossing_pos_ },
@@ -25,14 +28,16 @@ public:
         runways { runways_ }
     {}
 
-    std::vector<Terminal> create_terminals() const
+    [[nodiscard]] std::vector<Terminal> create_terminals() const
     {
         return std::vector<Terminal> { terminal_pos.begin(), terminal_pos.end() };
     }
 
-    WaypointQueue air_to_terminal(const Point3D& offset, const size_t runway_num,
+    [[nodiscard]] WaypointQueue air_to_terminal(const Point3D& offset, const size_t runway_num,
                                   const size_t terminal_num) const
     {
+        assert(runway_num < runways.size());
+        assert(terminal_num < terminal_pos.size());
         const Runway& runway = runways.at(runway_num);
 
         const auto runway_middle_pos = (runway.start + runway.end) * 0.5f;
@@ -55,11 +60,13 @@ public:
         return result;
     }
 
-    WaypointQueue terminal_to_air(const Point3D& offset, const size_t runway_num,
+    [[nodiscard]] WaypointQueue terminal_to_air(const Point3D& offset, const size_t runway_num,
                                   const size_t terminal_num) const
     {
+        assert(runway_num < runways.size());
+        assert(terminal_num < terminal_pos.size());
         const Runway& runway = runways.at(runway_num);
-        const float angle    = (rand() % 1000) * 2 * 3.141592f / 1000.f; // random angle between 0 and 2pi
+        const float angle    = (float)(rand() % 1000) * 2 * 3.141592f / 1000.f; // random angle between 0 and 2pi
 
         const auto runway_middle_pos = (runway.start + runway.end) * 0.5f;
         const auto runway_length     = (runway.end - runway.start) * 0.5f;

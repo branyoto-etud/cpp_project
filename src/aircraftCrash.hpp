@@ -11,7 +11,9 @@ public:
     AircraftCrash(const std::string& flight_number, const Point3D& pos,
                   const Point3D& speed, const AircraftCrashReason& reason)
         : std::runtime_error {build_error_msg(flight_number, pos, speed, reason)}
-    {}
+    {
+        assert(!flight_number.empty());
+    }
 private:
     static std::string build_error_msg(const std::string& flight_number, const Point3D& pos,
                                        const Point3D& speed, const AircraftCrashReason& reason) {
