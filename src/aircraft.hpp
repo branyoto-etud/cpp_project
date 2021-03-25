@@ -14,14 +14,14 @@
 class Aircraft : public GL::Displayable
 {
 private:
-    const AircraftType& type;   // The life time of this field is less than the container in AircraftFactory so no dangling ref here
-    const std::string flight_number;
-    Point3D pos, speed; // note: the speed should always be normalized to length 'speed'
-    WaypointQueue waypoints = {};
-    Tower& control;
-    bool landing_gear_deployed = false; // is the landing gear deployed?
-    bool is_at_terminal        = false;
-    double fuel                = 0;
+    const AircraftType& type;               // The life time of this field is less than the container in AircraftFactory so no dangling ref here
+    const std::string flight_number;        // Aircraft identifier
+    Point3D pos, speed;                     // note: the speed should always be normalized to length 'speed'
+    WaypointQueue waypoints = {};           // Path of the aircraft
+    Tower& control;                         // Reference to the Tower
+    bool landing_gear_deployed = false;     // is the landing gear deployed?
+    bool is_at_terminal        = false;     // is the aircraft at a terminal
+    double fuel                = 0;         // fuel level
 
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the
@@ -39,14 +39,13 @@ private:
     void arrive_at_terminal();
     // deploy and retract landing gear depending on next waypoints
     bool operate_landing_gear();
-    void add_waypoint(const Waypoint& wp, bool front);
     [[nodiscard]] bool is_on_ground() const { return pos.z() < DISTANCE_THRESHOLD; }
     [[nodiscard]] float max_speed() const { return is_on_ground() ? type.max_ground_speed : type.max_air_speed; }
-
 
 public:
     Aircraft(const Aircraft&) = delete;
     Aircraft& operator=(const Aircraft&) = delete;
+    ~Aircraft() override = default;
     Aircraft(const AircraftType& type_, const std::string_view& flight_number_, const Point3D& pos_,
              const Point3D& speed_, Tower& control_) :
         GL::Displayable { pos_.x() + pos_.y() },

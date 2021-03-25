@@ -16,22 +16,22 @@ Voici quelques idées :
 - A: fonctions d'initialisation appelées une seule fois
 - B: état attendu d'un objet lorsqu'une fonction est appelée dessus
 - C: vérification de certains paramètres de fonctions
-- D: Constructors (base, copy, assign);
+- D: Destructor & Constructors (base, copy, assign);
 - ...
 
 |         | A | B | C | D |
 |---------|---|---|---|---|
-|Aircraft |   |   |   |   | 
-|ACType   |   |   |   |   | 
-|ACFactory|   |   |   |   | 
-|ACManager|   |   |   |   | 
-|Airport  |   |   |   |   | 
-|APType   |   |   |   |   | 
-|Config   |   |   |   |   | 
-|Geometry |   |   |   |   | 
-|main     |   |   |   |   | 
-|runway   |   |   |   |   | 
-|Terminal |   |   |   |   | 
-|Tower    |   |   |   |   | 
-|TowerSim |   |   |   |   | 
-|Waypoint |   |   |   |   | 
+|Aircraft | ☑ | ☑ | ☑ | ☑ |
+|ACType   | ☑ | ☑ | ☑ | ☑ | 
+|ACFactory|  |  |  |  | 
+|ACManager|  |  |  |  | 
+|Airport  |  |  |  |  | 
+|APType   |  |  |  |  | 
+|Config   |  |  |  |  | 
+|Geometry |  |  |  |  | 
+|main     |  |  |  |  | 
+|runway   |  |  |  |  | 
+|Terminal |  |  |  |  | 
+|Tower    |  |  |  |  | 
+|TowerSim |  |  |  |  | 
+|Waypoint |  |  |  |  | 

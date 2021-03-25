@@ -29,68 +29,54 @@ void Aircraft::turn(Point3D& direction)
 unsigned int Aircraft::get_speed_octant() const
 {
     const float speed_len = speed.length();
-    if (speed_len > 0)
-    {
-        const Point3D norm_speed { speed * (1.0f / speed_len) };
-        const float angle =
+    if (speed_len <= 0) return 0;
+    const Point3D norm_speed{speed * (1.0f / speed_len)};
+    const float angle =
             (norm_speed.y() > 0) ? 2.0f * 3.141592f - std::acos(norm_speed.x()) : std::acos(norm_speed.x());
-        // partition into NUM_AIRCRAFT_TILES equal pieces
-        return (static_cast<int>(std::round((angle * NUM_AIRCRAFT_TILES) / (2.0f * 3.141592f))) + 1) %
-               NUM_AIRCRAFT_TILES;
-    }
-    else
-    {
-        return 0;
-    }
+    // partition into NUM_AIRCRAFT_TILES equal pieces
+    return (static_cast<int>(std::round((angle * NUM_AIRCRAFT_TILES) / (2.0f * 3.141592f))) + 1) %
+           NUM_AIRCRAFT_TILES;
 }
 
 // when we arrive at a terminal, signal the tower
 void Aircraft::arrive_at_terminal()
 {
-    // we arrived at a terminal, so start servicing
-    control.arrived_at_terminal(*this);
+    assert(is_at_terminal == false);
+    control.arrived_at_terminal(*this);  // we arrived at a terminal, so start servicing
     is_at_terminal = true;
 }
 
 // deploy and retract landing gear depending on next waypoints
 bool Aircraft::operate_landing_gear()
 {
-    if (waypoints.size() > 1u)
+    if (waypoints.size() <= 1u) return false;
+
+    const auto it            = waypoints.begin();
+    const bool ground_before = it->is_on_ground();
+    const bool ground_after  = std::next(it)->is_on_ground();
+    // deploy/retract landing gear when landing/lifting-off
+    if (ground_before && !ground_after)
     {
-        const auto it            = waypoints.begin();
-        const bool ground_before = it->is_on_ground();
-        const bool ground_after  = std::next(it)->is_on_ground();
-        // deploy/retract landing gear when landing/lifting-off
-        if (ground_before && !ground_after)
-        {
-            if (!SILENT_TERMINAL)
-                std::cout << flight_number << " lift off" << std::endl;
-            return true;
-        }
-        else if (!ground_before && ground_after)
-        {
-            if (!SILENT_TERMINAL)
-                std::cout << flight_number << " is now landing..." << std::endl;
-            landing_gear_deployed = true;
-        }
-        else if (!ground_before)
-        {
-            landing_gear_deployed = false;
-        }
+        if (!SILENT_TERMINAL) std::cout << flight_number << " lift off" << std::endl;
+        return true;
+    }
+    if (!ground_before && ground_after)
+    {
+        if (!SILENT_TERMINAL) std::cout << flight_number << " is now landing..." << std::endl;
+        landing_gear_deployed = true;
+    }
+    else if (!ground_before)
+    {
+        landing_gear_deployed = false;
     }
     return false;
-}
-
-void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
-{
-    if (front) waypoints.push_front(wp);
-    else waypoints.push_back(wp);
 }
 
 // Move the aircraft and return True if the aircraft need to be destroyed
 // A destruction appear in 2 cases: No fuel left and lifting off.
 bool Aircraft::move(double alpha)
 {
+    assert(alpha > 0);
     if (fuel <= 0)                                                          // Crash if no fuel
         throw AircraftCrash {flight_number, pos, speed, out_of_fuel};
     if (!is_on_ground()) {                                                  // Decrease fuel level
