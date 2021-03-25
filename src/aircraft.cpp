@@ -90,7 +90,7 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
 // A destruction appear in 2 cases: No fuel left and lifting off.
 bool Aircraft::move(double alpha)
 {
-    if (fuel <= 0) return true;                                             // Crash when no fuel
+    if (fuel <= 0) throw AircraftCrash {flight_number + " run out of fuel"};    // Crash when no fuel
     if (!is_on_ground()) {                                                  // Decrease fuel level
         fuel -= alpha * type.fuel_consumption * (speed.length() / max_speed());
     }
