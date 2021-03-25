@@ -28,7 +28,6 @@ struct AircraftType
 
     [[nodiscard]] float min_fuel() const {
         //        consumption for 10      seconds
-        std::cout << fuel_consumption * 10 * (float)GL::ticks_per_sec << std::endl;
         return fuel_consumption * 10 * (float)GL::ticks_per_sec;
     }
 };

@@ -54,7 +54,6 @@ bool Aircraft::move(double alpha)
 bool Aircraft::move(double alpha)
 {
     if (fuel < 0) {                                                         // Crash when no fuel
-        std::cout << flight_number << " run out of fuel!" << std::endl;
         return true;
     }
     if (!is_on_ground()) fuel-=alpha;                                       // Decrease fuel
@@ -90,7 +89,6 @@ bool Aircraft::move(double alpha)
 bool Aircraft::move(double alpha)
 {
     if (fuel < 0) {                                                         // Crash when no fuel
-        std::cout << flight_number << " run out of fuel!" << std::endl;
         return true;
     }
     if (!is_on_ground()) fuel-=alpha;                                       // Decrease fuel
