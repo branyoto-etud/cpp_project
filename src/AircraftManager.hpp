@@ -21,4 +21,6 @@ public:
 
 private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
+
+    static bool move_treatment(double, const std::unique_ptr<Aircraft>&);
 };

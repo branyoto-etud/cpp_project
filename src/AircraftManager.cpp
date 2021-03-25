@@ -10,12 +10,21 @@ AircraftManager::AircraftManager()
 
 AircraftManager::~AircraftManager() = default;
 
+bool AircraftManager::move_treatment(const double alpha, const std::unique_ptr<Aircraft>& craft) {
+    try {
+        return craft->move(alpha);
+    } catch (const AircraftCrash& crash) {
+        std::cerr << crash.what() << std::endl;
+        return true;
+    }
+}
+
 void AircraftManager::move(const double alpha)
 {
     std::sort(aircrafts.begin(), aircrafts.end(),
               [](const std::unique_ptr<Aircraft>& a, const std::unique_ptr<Aircraft>& b){return *a < *b;});
     aircrafts.erase(std::remove_if(aircrafts.begin(), aircrafts.end(),
-                  [alpha](const std::unique_ptr<Aircraft>& a){return a->move(alpha);}), aircrafts.end());
+                  [alpha](const std::unique_ptr<Aircraft>& a){return move_treatment(alpha, a);}), aircrafts.end());
 }
 void AircraftManager::add_aircraft(std::unique_ptr<Aircraft> aircraft)
 {
