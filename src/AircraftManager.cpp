@@ -15,6 +15,7 @@ bool AircraftManager::move_treatment(const double alpha, const std::unique_ptr<A
         return craft->move(alpha);
     } catch (const AircraftCrash& crash) {
         std::cerr << crash.what() << std::endl;
+        crash_count++;
         return true;
     }
 }
@@ -24,7 +25,7 @@ void AircraftManager::move(const double alpha)
     std::sort(aircrafts.begin(), aircrafts.end(),
               [](const std::unique_ptr<Aircraft>& a, const std::unique_ptr<Aircraft>& b){return *a < *b;});
     aircrafts.erase(std::remove_if(aircrafts.begin(), aircrafts.end(),
-                  [alpha](const std::unique_ptr<Aircraft>& a){return move_treatment(alpha, a);}), aircrafts.end());
+                  [this, alpha](const std::unique_ptr<Aircraft>& a){return move_treatment(alpha, a);}), aircrafts.end());
 }
 void AircraftManager::add_aircraft(std::unique_ptr<Aircraft> aircraft)
 {
@@ -42,4 +43,8 @@ unsigned AircraftManager::get_required_fuel() {
            [](unsigned x, const std::unique_ptr<Aircraft>& a){
                return a->is_low_on_fuel() && a->is_circling() ? a->get_missing_fuel() + x : x;
            });
+}
+
+void AircraftManager::display_crash_number() const {
+    std::cout << crash_count << std::endl;
 }

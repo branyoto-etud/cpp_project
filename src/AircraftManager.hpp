@@ -18,9 +18,11 @@ public:
     void move(double) override;
     unsigned count_aircraft_on_airline(const std::string_view&);
     unsigned get_required_fuel();
+    void display_crash_number() const;
 
 private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
+    unsigned crash_count = 0;
 
-    static bool move_treatment(double, const std::unique_ptr<Aircraft>&);
+    bool move_treatment(double, const std::unique_ptr<Aircraft>&);
 };

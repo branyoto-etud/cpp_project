@@ -62,6 +62,7 @@ void TowerSimulation::create_keystrokes()
     GL::keystrokes.emplace('p', []() { GL::pause(); });
     GL::keystrokes.emplace('o', []() { GL::change_framerate_modifier(1.01); });
     GL::keystrokes.emplace('l', []() { GL::change_framerate_modifier(0.99); });
+    GL::keystrokes.emplace('m', [this]() { aircraft_manager->display_crash_number(); });
     for (auto i = 0; i < 8; i++) {
         GL::keystrokes.emplace('0'+i, [this, i]() { display_airline(i); });
     }
