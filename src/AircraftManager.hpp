@@ -24,5 +24,6 @@ private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
     unsigned crash_count = 0;
 
+    void display_aircrafts();
     bool move_treatment(double, const std::unique_ptr<Aircraft>&);
 };

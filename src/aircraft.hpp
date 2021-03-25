@@ -13,6 +13,10 @@
 
 class Aircraft : public GL::Displayable
 {
+friend std::ostream& operator<<(std::ostream& stream, const Aircraft& aircraft) {
+    return stream << "Aircraft: " << aircraft.flight_number << " | " << aircraft.has_terminal()
+    << " | " << aircraft.fuel << " | " << aircraft.type.min_fuel() << " | " << aircraft.type.max_fuel;
+}
 private:
     const AircraftType& type;               // The life time of this field is less than the container in AircraftFactory so no dangling ref here
     const std::string flight_number;        // Aircraft identifier
@@ -41,6 +45,10 @@ private:
     bool operate_landing_gear();
     [[nodiscard]] bool is_on_ground() const { return pos.z() < DISTANCE_THRESHOLD; }
     [[nodiscard]] float max_speed() const { return is_on_ground() ? type.max_ground_speed : type.max_air_speed; }
+    double compute_initial_fuel() {
+        const double f = std::rand() % (type.max_fuel - (int)(type.min_fuel()));
+        return type.min_fuel() + f;
+    }
 
 public:
     Aircraft(const Aircraft&) = delete;
@@ -54,7 +62,7 @@ public:
         pos { pos_ },
         speed { speed_ },
         control { control_ },
-        fuel {(double)(type.min_fuel() + std::rand() % type.max_fuel - type.min_fuel())}
+        fuel {compute_initial_fuel()}
     {
         speed.cap_length(max_speed());
     }

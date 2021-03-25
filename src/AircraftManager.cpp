@@ -21,10 +21,17 @@ bool AircraftManager::move_treatment(const double alpha, const std::unique_ptr<A
     }
 }
 
+void AircraftManager::display_aircrafts() { // Debug function
+    std::cout << "---" << std::endl;
+    std::for_each(aircrafts.begin(), aircrafts.end(), [](const std::unique_ptr<Aircraft>& a){std::cout << *a << std::endl;});
+    std::cout << "---" << std::endl;
+}
+
 void AircraftManager::move(const double alpha)
 {
     std::sort(aircrafts.begin(), aircrafts.end(),
               [](const std::unique_ptr<Aircraft>& a, const std::unique_ptr<Aircraft>& b){return *a < *b;});
+//    display_aircrafts();
     aircrafts.erase(std::remove_if(aircrafts.begin(), aircrafts.end(),
                   [this, alpha](const std::unique_ptr<Aircraft>& a){return move_treatment(alpha, a);}), aircrafts.end());
 }
