@@ -47,5 +47,5 @@ unsigned AircraftManager::get_required_fuel() {
 }
 
 void AircraftManager::display_crash_number() const {
-    std::cout << crash_count << std::endl;
+    std::cout << crash_count << "aircraft have crashed so far." << std::endl;
 }
