@@ -1,5 +1,6 @@
 #include "AircraftManager.hpp"
 
+#include "aircraftCrash.hpp"
 #include <numeric>
 #include <algorithm>
 

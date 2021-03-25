@@ -35,4 +35,4 @@ constexpr unsigned FUEL_REFILL_FREQUENCY = 100;
 
 
 
-using AircraftCrash = std::runtime_error;
+//using AircraftCrash = std::runtime_error;

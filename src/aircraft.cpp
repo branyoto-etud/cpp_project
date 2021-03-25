@@ -1,6 +1,7 @@
 #include "aircraft.hpp"
 
 #include "GL/opengl_interface.hpp"
+#include "aircraftCrash.hpp"
 
 #include <cmath>
 
@@ -90,7 +91,8 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
 // A destruction appear in 2 cases: No fuel left and lifting off.
 bool Aircraft::move(double alpha)
 {
-    if (fuel <= 0) throw AircraftCrash {flight_number + " run out of fuel"};    // Crash when no fuel
+    if (fuel <= 0)                                                          // Crash if no fuel
+        throw AircraftCrash {flight_number, pos, speed, out_of_fuel};
     if (!is_on_ground()) {                                                  // Decrease fuel level
         fuel -= alpha * type.fuel_consumption * (speed.length() / max_speed());
     }
@@ -111,7 +113,7 @@ bool Aircraft::move(double alpha)
     }
 
     if (is_on_ground() && !landing_gear_deployed)                                   // Invalid state caused by speed
-        throw AircraftCrash { flight_number + " crashed into the ground" };
+        throw AircraftCrash {flight_number, pos, speed, bad_landing};
     if (!is_on_ground() && speed.length() < SPEED_THRESHOLD)                        // If flying to slow -> sink
         pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed.length());
 

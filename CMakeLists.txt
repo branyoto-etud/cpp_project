@@ -30,7 +30,7 @@ add_executable(tower
 	src/main.cpp
 	src/AircraftManager.cpp
 		src/AircraftManager.hpp
-        src/AircraftFactory.cpp src/AircraftFactory.h)
+        src/AircraftFactory.cpp src/AircraftFactory.h src/aircraftCrash.hpp)
 
 ###################
 # Compile options #

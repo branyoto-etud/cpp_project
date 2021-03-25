@@ -156,6 +156,11 @@ struct Point3D
 
         return *this;
     }
+
+    std::string to_string() const {
+        return "[" + std::to_string(values[0]) + ", " + std::to_string(values[1]) +
+        ", " + std::to_string(values[2]) + "]";
+    }
 };
 
 // our 3D-coordinate system will be tied to the airport: the runway is parallel to the x-axis, the z-axis
