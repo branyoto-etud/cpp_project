@@ -19,17 +19,11 @@ public:
     std::array<T, Size> values {};
 
     Point() {}
-    Point(const Point<Size, T>& other) : values {other.values} {}
-    Point(T x, T y, T z)
-        : values {x, y, z}
-    {
-        static_assert(Size == 3);
-    }
-    Point(T x, T y)
-            : values {x, y}
-    {
-        static_assert(Size == 2);
-    }
+    Point(Point& other) : values {other.values} {}
+    Point(Point&& other) : values {other.values} {}
+    Point(const Point& other) : values {other.values} {}
+    Point(const Point&& other) : values {other.values} {}
+
 
     T& x() { return values[0]; }
     T x() const { return values[0]; }
