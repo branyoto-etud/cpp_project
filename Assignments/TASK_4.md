@@ -27,18 +27,19 @@ for (const auto& wp: control.get_instructions(*this))
 <table border="0">
  <tr>
     <td><pre lang="c++">
-    int minmax(const int x, const int y, const bool min) {
-        return x &lt; y ? (min ? x : y) : (min ? y : x);
-    }
-    </pre></td>
+int minmax(const int x, const int y, const bool min) {
+  return x &lt; y ? (min ? x : y) : (min ? y : x);
+}</pre></td>
     <td><pre lang="c++">
-    template&lt;bool min&gt;
-    int minmax(const int x, const int y){
-        return x &lt; y ? (min ? x : y) : (min ? y : x);
-    }
-    </pre></td>
+template&lt;bool min&gt;
+int minmax(const int x, const int y){
+return x &lt; y ? (min ? x : y) : (min ? y : x);
+}</pre></td>
  </tr>
 </table>
+
+> Si minmax n'est pas utilisé le compilateur ne génère pas le code de la template. Pour chaque cas de la template 
+> (donc là 2) s'il sont utilisé, une nouvelle fonction est créée. 
 
 ### Objectif 2 - Points génériques
 

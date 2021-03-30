@@ -82,7 +82,12 @@ bool Aircraft::move(double alpha)
     if (!is_on_ground()) {                                                  // Decrease fuel level
         fuel -= alpha * type.fuel_consumption * (speed.length() / max_speed());
     }
-    if (waypoints.empty()) waypoints = control.get_instructions(*this);     // Update path when empty
+    if (waypoints.empty()) {                                                // Update path when empty
+        for (const auto& wp: control.get_instructions(*this))
+        {
+            add_waypoint<false>(wp);
+        }
+    }
     if (is_circling()) {                                                    // If making circles
         auto wp = control.reserve_terminal(*this);                          // Try to update the path
         if (!wp.empty()) waypoints = wp;                                    // If path to terminal update the path

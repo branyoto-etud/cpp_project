@@ -49,6 +49,11 @@ private:
         const double f = std::rand() % (type.max_fuel - (int)(type.min_fuel()));
         return type.min_fuel() + f;
     }
+    template<bool front = false>
+    void add_waypoint(const Waypoint& wp) {
+        if constexpr (front) waypoints.push_front(wp);
+        else waypoints.push_back(wp);
+    }
 
 public:
     Aircraft(const Aircraft&) = delete;
