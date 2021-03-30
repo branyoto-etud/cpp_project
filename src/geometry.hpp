@@ -18,6 +18,10 @@ friend std::ostream& operator<<(std::ostream& stream, const Point& point) {
 public:
     std::array<T, Size> values {};
 
+    template<typename ... U>
+    Point(T x, U&& ... val) : values {x, std::forward<U>(val)...} {
+        static_assert(sizeof...(U)+1 == Size);
+    }
     Point() {}
     Point(Point& other) : values {other.values} {}
     Point(Point&& other) : values {other.values} {}
