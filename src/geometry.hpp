@@ -152,14 +152,6 @@ public:
         return "[" + std::accumulate(std::next(values.begin()), values.end(), std::to_string(values[0]),
                                [](const std::string& s, const T& x){return s + ", "s + std::to_string(x);}) + "]";
     }
-
-    T* to_static_array() const {
-        T* array = new T[Size];
-        for (size_t i = 0; i < Size; i++) {
-            array[i] = values[i];
-        }
-        return array;
-    }
 };
 // our 3D-coordinate system will be tied to the airport: the runway is parallel to the x-axis, the z-axis
 // points towards the sky, and y is perpendicular to both thus,
