@@ -15,7 +15,7 @@ std::unique_ptr<Aircraft> AircraftFactory::create_aircraft(Tower& tower)
 {
     const std::string flight_number = new_flight_number();
     const float angle       = (std::rand() % 1000) * 2 * 3.141592f / 1000.f; // random angle between 0 and 2pi
-    const Point<3, float> start     = Point<3, float> { std::sin(angle), std::cos(angle), 0 } * 3 + Point<3, float> { 0, 0, 2 };
+    const Point<3, float> start     = Point<3, float> { std::sin(angle), std::cos(angle), 0.f } * 3 + Point<3, float> { 0.f, 0.f, 2.f };
     const Point<3, float> direction = (-start).normalize();
     const AircraftType& type = *aircraft_types[std::rand() % aircraft_types.size()];
 

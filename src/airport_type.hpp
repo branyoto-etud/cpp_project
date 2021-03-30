@@ -43,7 +43,7 @@ public:
         const auto runway_middle_pos = (runway.start + runway.end) * 0.5f;
         const auto runway_length     = (runway.end - runway.start) * 0.5f;
 
-        const Waypoint before_in_air { offset + runway.start - runway_length + Point<3, float> { 0, 0, .7f },
+        const Waypoint before_in_air { offset + runway.start - runway_length + Point<3, float> { 0.f, 0.f, .7f },
                                        wp_air };
         const Waypoint runway_middle { offset + runway_middle_pos, wp_ground };
         const Waypoint runway_end { offset + runway.end, wp_ground };
@@ -74,9 +74,9 @@ public:
         const Waypoint crossing { offset + crossing_pos, wp_ground };
         const Waypoint runway_start { offset + runway.start, wp_ground };
         const Waypoint runway_middle { offset + runway_middle_pos, wp_ground };
-        const Waypoint later_in_air { offset + runway.end + runway_length + Point<3, float> { 0, 0, .7f }, wp_air };
+        const Waypoint later_in_air { offset + runway.end + runway_length + Point<3, float> { 0.f, 0.f, .7f }, wp_air };
         const Waypoint randomly_high {
-            Point<3, float> { std::sin(angle), std::cos(angle), 0 } * 6 + Point<3, float> { 0, 0, 2 }, wp_air
+            Point<3, float> { std::sin(angle), std::cos(angle), 0.f } * 6 + Point<3, float> { 0.f, 0.f, 2.f }, wp_air
         };
 
         WaypointQueue result { crossing, runway_start, runway_middle, later_in_air, randomly_high };
@@ -90,8 +90,8 @@ public:
     }
 };
 
-inline const AirportType one_lane_airport { Point<3, float> { -.1f, -.3f, 0 },
-                                            Point<3, float> { -.6f, .3f, 0 },
-                                            { Point<3, float> { .3f, 0, 0 }, Point<3, float> { -.3f, .3f, 0 },
-                                              Point<3, float> { 0, .55f, 0 } },
-                                            { Runway { Point<3, float> { -.5f, -.75f, 0 } } } };
+inline const AirportType one_lane_airport { Point<3, float> { -.1f, -.3f, 0.f },
+                                            Point<3, float> { -.6f, .3f, 0.f },
+                                            { Point<3, float> { .3f, 0.f, 0.f }, Point<3, float> { -.3f, .3f, 0.f },
+                                              Point<3, float> { 0.f, .55f, 0.f } },
+                                            { Runway { Point<3, float> { -.5f, -.75f, 0.f } } } };
