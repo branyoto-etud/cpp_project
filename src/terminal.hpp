@@ -11,13 +11,13 @@ class Terminal : public GL::DynamicObject
 private:
     double service_progress    = SERVICE_CYCLES;
     Aircraft* current_aircraft = nullptr;
-    const Point3D pos;
+    const Point<3, float> pos;
 
 public:
     ~Terminal() override = default;
     Terminal(const Terminal&) = delete;
     Terminal& operator=(const Terminal&) = delete;
-    explicit Terminal(const Point3D& pos_) : pos { pos_ } {}
+    explicit Terminal(const Point<3, float>& pos_) : pos { pos_ } {}
 
     [[nodiscard]] bool in_use() const { return current_aircraft != nullptr; }
     [[nodiscard]] bool is_servicing() const {

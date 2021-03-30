@@ -9,11 +9,11 @@ void Aircraft::turn_to_waypoint()
 {
     if (!waypoints.empty())
     {
-        Point3D target = waypoints[0];
+        Point<3, float> target = waypoints[0];
         if (waypoints.size() > 1)
         {
             const float d   = (waypoints[0] - pos).length();
-            const Point3D W = (waypoints[0] - waypoints[1]).normalize(d / 2.0f);
+            const Point<3, float> W = (waypoints[0] - waypoints[1]).normalize(d / 2.0f);
             target += W;
         }
         auto t = target - pos - speed;
@@ -21,7 +21,7 @@ void Aircraft::turn_to_waypoint()
     }
 }
 
-void Aircraft::turn(Point3D& direction)
+void Aircraft::turn(Point<3, float>& direction)
 {
     (speed += direction.cap_length(type.max_accel)).cap_length(max_speed());
 }
@@ -30,7 +30,7 @@ unsigned int Aircraft::get_speed_octant() const
 {
     const float speed_len = speed.length();
     if (speed_len <= 0) return 0;
-    const Point3D norm_speed{speed * (1.0f / speed_len)};
+    const Point<3, float> norm_speed{speed * (1.0f / speed_len)};
     const float angle =
             (norm_speed.y() > 0) ? 2.0f * 3.141592f - std::acos(norm_speed.x()) : std::acos(norm_speed.x());
     // partition into NUM_AIRCRAFT_TILES equal pieces

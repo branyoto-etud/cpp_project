@@ -20,7 +20,7 @@ friend std::ostream& operator<<(std::ostream& stream, const Aircraft& aircraft) 
 private:
     const AircraftType& type;               // The life time of this field is less than the container in AircraftFactory so no dangling ref here
     const std::string flight_number;        // Aircraft identifier
-    Point3D pos, speed;                     // note: the speed should always be normalized to length 'speed'
+    Point<3, float> pos, speed;             // note: the speed should always be normalized to length 'speed'
     WaypointQueue waypoints = {};           // Path of the aircraft
     Tower& control;                         // Reference to the Tower
     bool landing_gear_deployed = false;     // is the landing gear deployed?
@@ -34,7 +34,7 @@ private:
     // half our distance so: |w1 - pos| = d and [w1 - w2].normalize() = W and Z
     // = w1 + W*d/2
     void turn_to_waypoint();
-    void turn(Point3D& direction);
+    void turn(Point<3, float>& direction);
 
     // select the correct tile in the plane texture (series of 8 sprites facing
     // [North, NW, W, SW, S, SE, E, NE])
@@ -59,8 +59,8 @@ public:
     Aircraft(const Aircraft&) = delete;
     Aircraft& operator=(const Aircraft&) = delete;
     ~Aircraft() override = default;
-    Aircraft(const AircraftType& type_, const std::string_view& flight_number_, const Point3D& pos_,
-             const Point3D& speed_, Tower& control_) :
+    Aircraft(const AircraftType& type_, const std::string_view& flight_number_, const Point<3, float>& pos_,
+             const Point<3, float>& speed_, Tower& control_) :
         GL::Displayable { pos_.x() + pos_.y() },
         type { type_ },
         flight_number { flight_number_ },
@@ -73,7 +73,7 @@ public:
     }
 
     [[nodiscard]] const std::string& get_flight_num() const { return flight_number; }
-    [[nodiscard]] float distance_to(const Point3D& p) const { return pos.distance_to(p); }
+    [[nodiscard]] float distance_to(const Point<3, float>& p) const { return pos.distance_to(p); }
     [[nodiscard]] bool is_low_on_fuel() const { return fuel < type.min_fuel(); }
     [[nodiscard]] unsigned get_missing_fuel() const { return type.max_fuel - (unsigned)std::ceil(fuel); }
 

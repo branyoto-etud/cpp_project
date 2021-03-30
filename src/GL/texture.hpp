@@ -43,7 +43,7 @@ public:
 
     ~Texture2D() { glDeleteTextures(1, &tex_index); }
 
-    void draw(Point2D pos, const Point2D& dim, const size_t tile_idx = 0) const
+    void draw(Point<2, float> pos, const Point<2, float>& dim, const size_t tile_idx = 0) const
     {
         glBindTexture(GL_TEXTURE_2D, tex_index);
         glColor3f(1, 1, 1);
@@ -70,15 +70,15 @@ private:
         Count,
     };
 
-    static inline const std::array<Point2D, Coordinate::Count> _texture_shifts {
-        Point2D { 0, 0 }, Point2D { 1, 0 }, Point2D { 0, 1 }, Point2D { 1, 1 }
+    static inline const std::array<Point<2, float>, Coordinate::Count> _texture_shifts {
+        Point<2, float> { 0, 0 }, Point<2, float> { 1, 0 }, Point<2, float> { 0, 1 }, Point<2, float> { 1, 1 }
     };
 
-    static inline const std::array<Point2D, Coordinate::Count> _screen_shifts {
-        Point2D { -1, 1 }, Point2D { 1, 1 }, Point2D { -1, -1 }, Point2D { 1, -1 }
+    static inline const std::array<Point<2, float>, Coordinate::Count> _screen_shifts {
+        Point<2, float> { -1, 1 }, Point<2, float> { 1, 1 }, Point<2, float> { -1, -1 }, Point<2, float> { 1, -1 }
     };
 
-    void draw_point(Coordinate coordinate, const Point2D& screen_pos, const Point2D& screen_dim,
+    void draw_point(Coordinate coordinate, const Point<2, float>& screen_pos, const Point<2, float>& screen_dim,
                     const size_t tile_idx) const
     {
         const auto& tex_shift    = _texture_shifts[coordinate];
@@ -87,7 +87,7 @@ private:
         glTexCoord2f((tile_idx + tex_shift.x()) * tile_width, tex_shift.y());
 
         const auto vertex = screen_pos + screen_dim * screen_shift * 0.5f;
-        glVertex2fv(vertex.values);
+        glVertex2fv(vertex.to_static_array());
     }
 };
 

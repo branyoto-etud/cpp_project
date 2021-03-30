@@ -17,7 +17,7 @@ class Airport : public GL::Displayable, public GL::DynamicObject
 {
 private:
     const AirportType& type;
-    const Point3D pos;
+    const Point<3, float> pos;
     const GL::Texture2D texture;
     std::vector<Terminal> terminals;
     AircraftManager& manager;
@@ -72,7 +72,7 @@ public:
     ~Airport() override = default;
     Airport(const Airport&) = delete;
     Airport& operator=(const Airport&) = delete;
-    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, AircraftManager& _manager,
+    Airport(const AirportType& type_, const Point<3, float>& pos_, const img::Image* image, AircraftManager& _manager,
             const float z_ = 1.0f) :
         GL::Displayable { z_ },
         type { type_ },

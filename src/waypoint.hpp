@@ -11,7 +11,7 @@ enum WaypointType
     wp_terminal
 };
 
-class Waypoint : public Point3D
+class Waypoint : public Point<3, float>
 {
 friend std::ostream& operator<<(std::ostream& s, const Waypoint& w) {
     return s << "WP( [" << w.values[0] << ", " << w.values[1] << ", " << w.values[2] << "], " << w.type << ")";
@@ -19,8 +19,8 @@ friend std::ostream& operator<<(std::ostream& s, const Waypoint& w) {
 public:
     WaypointType type;
 
-    explicit Waypoint(const Point3D& position, const WaypointType type_ = wp_air) :
-        Point3D { position }, type { type_ }
+    explicit Waypoint(const Point<3, float>& position, const WaypointType type_ = wp_air) :
+        Point<3, float> { position }, type { type_ }
     {}
     Waypoint(const Waypoint&) = default;
     ~Waypoint() = default;
