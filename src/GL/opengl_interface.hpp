@@ -4,7 +4,6 @@
 #include "../geometry.hpp"
 #include "displayable.hpp"
 #include "dynamic_object.hpp"
-#include "../tower_sim.hpp"
 
 #include <GL/freeglut.h>
 #include <algorithm>

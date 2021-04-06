@@ -6,6 +6,8 @@
 #include "aircraft.hpp"
 #include "GL/dynamic_object.hpp"
 
+class Aircraft;
+
 class AircraftManager : public GL::DynamicObject
 {
 public:

@@ -8,8 +8,6 @@
 #include <numeric>
 #include <functional>
 
-
-
 template<typename ... T>
 using Arithmetic = std::enable_if_t<(std::is_arithmetic<std::remove_reference_t<T>>::value && ...), int>;
 

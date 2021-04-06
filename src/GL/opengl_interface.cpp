@@ -1,4 +1,5 @@
 #include "opengl_interface.hpp"
+#include "../tower_sim.hpp"
 
 namespace GL {
 

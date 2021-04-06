@@ -3,18 +3,23 @@
 #include <memory>
 #include <string>
 
-class Airport;
-class AircraftManager;
 struct AircraftType;
-class AircraftFactory;
+
+#include "airport.hpp"
+#include "AircraftManager.hpp"
+#include "AircraftFactory.h"
 
 class TowerSimulation
 {
 private:
     bool help        = false;
-    std::unique_ptr<Airport> airport;
-    std::unique_ptr<AircraftManager> aircraft_manager;
-    std::unique_ptr<AircraftFactory> aircraft_factory;
+//    std::unique_ptr<Airport> airport;
+//    std::unique_ptr<AircraftManager> aircraft_manager;
+//    std::unique_ptr<AircraftFactory> aircraft_factory;
+    Airport* airport = nullptr;
+    AircraftManager* aircraft_manager = nullptr;
+    AircraftFactory* aircraft_factory = nullptr;
+
     std::string data_path;
 
     void create_random_aircraft();

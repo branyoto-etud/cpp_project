@@ -1,11 +1,11 @@
 #pragma once
 
 #include <ostream>
+#include <fstream>
 #include <vector>
 #include <memory>
 
 #include "aircraft_types.hpp"
-#include <fstream>
 
 class Aircraft;
 class Tower;
