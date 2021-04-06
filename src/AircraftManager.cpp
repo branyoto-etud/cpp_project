@@ -31,7 +31,7 @@ void AircraftManager::move(const double dt)
     assert(dt > 0);
     std::sort(aircrafts.begin(), aircrafts.end(),
               [](const std::unique_ptr<Aircraft>& a, const std::unique_ptr<Aircraft>& b){return *a < *b;});
-//    display_aircrafts();
+    display_aircrafts();
     aircrafts.erase(std::remove_if(aircrafts.begin(), aircrafts.end(),
                   [this, dt](const std::unique_ptr<Aircraft>& a){return move_aircraft(dt, *a);}), aircrafts.end());
 }

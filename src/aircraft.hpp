@@ -46,7 +46,7 @@ private:
     [[nodiscard]] bool is_on_ground() const { return pos.z() < DISTANCE_THRESHOLD; }
     [[nodiscard]] float max_speed() const { return is_on_ground() ? type.max_ground_speed : type.max_air_speed; }
     double static compute_initial_fuel(const AircraftType& type) {
-        const double f = std::rand() % (type.max_fuel - (int)(type.min_fuel()));
+        const double f = std::rand() % (type.max_fuel - static_cast<int>(type.min_fuel()));
         return type.min_fuel() + f;
     }
     template<bool front = false>

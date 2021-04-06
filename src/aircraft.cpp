@@ -95,7 +95,7 @@ bool Aircraft::move(double dt)
     }
     if (is_at_terminal) return false;                                       // If serviced don't move
     turn_to_waypoint();                                                     // Rotate
-    pos += speed * (float)dt;                                            // Move
+    pos += speed * static_cast<float>(dt);                                  // Move
 
     if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)  // If close enough, remove the waypoint
     {
