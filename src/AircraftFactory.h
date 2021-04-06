@@ -19,12 +19,13 @@ public:
     AircraftFactory& operator=(const AircraftFactory&) = delete;    // Assignment
     AircraftFactory();                                              // Base Constructor
     ~AircraftFactory() = default;                                   // Destructor
-    static AircraftFactory* LoadTypes(const MediaPath&);
+    // Fro private to public because cannot make unique_ptr with private constructor
+    explicit AircraftFactory(std::ifstream&);
+    static std::unique_ptr<AircraftFactory> LoadTypes(const MediaPath&);
 
     std::unique_ptr<Aircraft> create_aircraft(Tower& tower);
 private:
     static std::unique_ptr<AircraftType> parse_line(std::string&);
-    explicit AircraftFactory(std::ifstream&);
 
     std::string new_flight_number();
 

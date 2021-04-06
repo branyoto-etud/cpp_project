@@ -94,5 +94,11 @@ public:
         refuel_all(dt);
     }
 
+    void on_aircraft_crash(const Aircraft& aircraft) {
+        for (auto& terminal : terminals) {
+            terminal.on_aircraft_crash(aircraft);
+        }
+    }
+
     friend class Tower;
 };

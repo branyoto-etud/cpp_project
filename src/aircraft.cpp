@@ -5,6 +5,11 @@
 
 #include <cmath>
 
+
+Aircraft::~Aircraft() {
+    control.on_aircraft_crash(*this);
+}
+
 void Aircraft::turn_to_waypoint()
 {
     if (!waypoints.empty())
@@ -91,7 +96,10 @@ bool Aircraft::move(double dt)
     }
     if (is_circling()) {                                                    // If making circles
         auto wp = control.reserve_terminal(*this);                          // Try to update the path
-        if (!wp.empty()) waypoints = wp;                                    // If path to terminal update the path
+        if (!wp.empty()) {
+            throw AircraftCrash {flight_number, pos, speed, bad_landing};
+            waypoints = wp;                                    // If path to terminal update the path
+        }
     }
     if (is_at_terminal) return false;                                       // If serviced don't move
     turn_to_waypoint();                                                     // Rotate
@@ -131,18 +139,6 @@ bool Aircraft::operator<(const Aircraft &rhs) const {
     return fuel < rhs.fuel;
 }
 
-bool Aircraft::operator>(const Aircraft &rhs) const {
-    return rhs < *this;
-}
-
-bool Aircraft::operator<=(const Aircraft &rhs) const {
-    return !(rhs < *this);
-}
-
-bool Aircraft::operator>=(const Aircraft &rhs) const {
-    return !(*this < rhs);
-}
-
 void Aircraft::refill(unsigned int& fuel_stock) {
     const auto needed = get_missing_fuel();
     if (fuel_stock == 0) return;
@@ -155,4 +151,16 @@ void Aircraft::refill(unsigned int& fuel_stock) {
         fuel += needed;
         fuel_stock -= needed;
     }
+}
+// -------------------------
+//  Automatically generated
+// -------------------------
+bool Aircraft::operator>(const Aircraft &rhs) const {
+    return rhs < *this;
+}
+bool Aircraft::operator<=(const Aircraft &rhs) const {
+    return !(rhs < *this);
+}
+bool Aircraft::operator>=(const Aircraft &rhs) const {
+    return !(*this < rhs);
 }

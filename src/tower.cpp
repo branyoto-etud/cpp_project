@@ -52,3 +52,12 @@ WaypointQueue Tower::reserve_terminal(Aircraft& aircraft)
 {
     return aircraft.has_terminal() ? WaypointQueue {} : instruction_aux(aircraft);
 }
+
+void Tower::on_aircraft_crash(const Aircraft& aircraft) {
+    const auto it = reserved_terminals.find(&aircraft);
+    if (it == reserved_terminals.end()) {
+        return;
+    }
+    reserved_terminals.erase(it);
+    airport.on_aircraft_crash(aircraft);
+}

@@ -54,7 +54,9 @@ void change_framerate(int amount) {
     }
 }
 void change_framerate_modifier(double delta) {
-    framerate_modifier *= delta;
+    if (framerate_modifier <= 5 && framerate_modifier > 0) {
+        framerate_modifier *= delta;
+    }
 }
 
 void reshape_window(int w, int h)
@@ -123,6 +125,7 @@ void pause() {
     auto new_framerate = old_framerate;
     old_framerate = ticks_per_sec;
     ticks_per_sec = new_framerate;
+    oldTime = std::chrono::system_clock::now();
 }
 
 void loop()

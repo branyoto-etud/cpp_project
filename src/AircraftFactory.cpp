@@ -32,12 +32,12 @@ std::string AircraftFactory::new_flight_number()
     return flight_number;
 }
 
-AircraftFactory* AircraftFactory::LoadTypes(const MediaPath& media)
+std::unique_ptr<AircraftFactory> AircraftFactory::LoadTypes(const MediaPath& media)
 {
     const std::string filePath = media.get_full_path().string();
     std::ifstream file (filePath);
     if (file.is_open()) {
-        return new AircraftFactory{file};
+        return std::make_unique<AircraftFactory>(file);
     }
     throw std::invalid_argument {"The given file cannot be opened!"};
 }
