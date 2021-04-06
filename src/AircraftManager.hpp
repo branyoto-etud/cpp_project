@@ -24,5 +24,5 @@ private:
     unsigned crash_count = 0;
 
     [[maybe_unused]] void display_aircrafts();
-    bool move_treatment(double, const std::unique_ptr<Aircraft>&);
+    bool move_aircraft(double dt, Aircraft &craft);
 };

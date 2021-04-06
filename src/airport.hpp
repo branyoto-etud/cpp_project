@@ -17,7 +17,7 @@ class Airport : public GL::Displayable, public GL::DynamicObject
 {
 private:
     const AirportType& type;
-    const Point<3, float> pos;
+    const Point3D pos;
     const GL::Texture2D texture;
     std::vector<Terminal> terminals;
     AircraftManager& manager;
@@ -54,8 +54,8 @@ private:
         return terminals.at(terminal_number);
     }
 
-    void refuel_all(double alpha) {
-        assert(alpha > 0);
+    void refuel_all(double dt) {
+        assert(dt > 0);
         if (next_refill_time <= 0) {
             const auto old = ordered_fuel;
             fuel_stock += ordered_fuel;
@@ -63,7 +63,7 @@ private:
             next_refill_time = FUEL_REFILL_FREQUENCY;
             std::cout << "Received : " << old << " | Stock : " << fuel_stock << " | Ordered : " << ordered_fuel << std::endl;
         } else {
-            next_refill_time -= alpha;
+            next_refill_time -= dt;
         }
         std::for_each(terminals.begin(), terminals.end(), [this](Terminal& t){t.refill_aircraft_if_needed(fuel_stock);});
     }
@@ -72,7 +72,7 @@ public:
     ~Airport() override = default;
     Airport(const Airport&) = delete;
     Airport& operator=(const Airport&) = delete;
-    Airport(const AirportType& type_, const Point<3, float>& pos_, const img::Image* image, AircraftManager& _manager,
+    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, AircraftManager& _manager,
             const float z_ = 1.0f) :
         GL::Displayable { z_ },
         type { type_ },
@@ -87,11 +87,11 @@ public:
 
     void display() const override { texture.draw(project_2D(pos), { 2.0f, 2.0f }); }
 
-    void move(double alpha) override
+    void move(double dt) override
     {
-        assert(alpha);
-        std::for_each(terminals.begin(), terminals.end(), [alpha](Terminal& t){t.move(alpha);});
-        refuel_all(alpha);
+        assert(dt);
+        std::for_each(terminals.begin(), terminals.end(), [dt](Terminal& t){t.move(dt);});
+        refuel_all(dt);
     }
 
     friend class Tower;

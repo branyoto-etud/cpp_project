@@ -8,6 +8,8 @@
 #include <numeric>
 #include <functional>
 
+
+
 template<typename ... T>
 using Arithmetic = std::enable_if_t<(std::is_arithmetic<std::remove_reference_t<T>>::value && ...), int>;
 
@@ -18,7 +20,7 @@ friend std::ostream& operator<<(std::ostream& stream, const Point& point) {
     return stream << point.to_string();
 }
 public:
-    std::array<T, Size> values {};
+    std::array<T, Size> values;
 
     Point() {}
     Point(Point& other) : values {other.values} {}
@@ -30,25 +32,13 @@ public:
     Point(U&& ... val) : values {std::forward<U>(val)...} {
         static_assert(sizeof...(U) == Size);
     }
+    T& x() { return get<0>(); }
+    T x() const { return get<0>(); }
+    T& y() { return get<1>(); }
+    T y() const { return get<1>(); }
+    T& z() { return get<2>(); }
+    T z() const { return get<2>(); }
 
-    T& x() { return values[0]; }
-    T x() const { return values[0]; }
-    T& y() {
-        static_assert(Size >= 2);
-        return values[1];
-    }
-    T y() const {
-        static_assert(Size >= 2);
-        return values[1];
-    }
-    T& z() {
-        static_assert(Size >= 3);
-        return values[2];
-    }
-    T z() const {
-        static_assert(Size >= 3);
-        return values[2];
-    }
     template<int pos>
     [[nodiscard]] T get() const {
         static_assert(Size > pos);
@@ -60,73 +50,74 @@ public:
         return values[pos];
     }
 
-    Point<Size, T>& operator+=(const Point<Size, T>& other)
+    Point& operator+=(const Point& other)
     {
         std::transform(values.cbegin(), values.cend(), other.values.cbegin(), values.begin(),
                        std::plus<T>());
         return *this;
     }
 
-    Point<Size, T>& operator-=(const Point<Size, T>& other)
+    Point& operator-=(const Point& other)
     {
         std::transform(values.cbegin(), values.cend(), other.values.cbegin(), values.begin(),
                        std::minus<T>());
         return *this;
     }
-    Point<Size, T>& operator*=(const Point<Size, T>& other)
+    Point& operator*=(const Point& other)
     {
         std::transform(values.cbegin(), values.cend(), other.values.cbegin(), values.begin(),
                        std::multiplies<T>());
         return *this;
     }
 
-    Point<Size, T>& operator*=(const T scalar)
+    Point& operator*=(const T scalar)
     {
         std::transform(values.begin(), values.end(), values.begin(),
                        [scalar](T x){return x*scalar;});
         return *this;
     }
 
-    Point<Size, T> operator+(const Point<Size, T>& other) const
+    Point operator+(const Point& other) const
     {
-        Point<Size, T> result = *this;
+        Point result = *this;
         result += other;
         return result;
     }
 
-    Point<Size, T> operator-(const Point<Size, T>& other) const
+    Point operator-(const Point& other) const
     {
-        Point<Size, T> result = *this;
+        Point result = *this;
         result -= other;
         return result;
     }
 
-    Point<Size, T> operator*(const T scalar) const
+    Point operator*(const T scalar) const
     {
-        Point<Size, T> result = *this;
+        Point result = *this;
         result *= scalar;
         return result;
     }
-    Point<Size, T> operator*(const Point<Size, T>& other) const
+    Point operator*(const Point& other) const
     {
-        Point<Size, T> result = *this;
+        Point result = *this;
         result *= other;
         return result;
     }
 
-    Point<Size, T> operator-() const {
-        Point<Size, T> result;
+    Point operator-() const {
+        Point result;
         return result - *this;
     }
 
     T length() const {
-        const T l = std::accumulate(values.begin(), values.end(), static_cast<T>(0), [](T x, T y){ return x + y*y;});
+        const T l = std::accumulate(values.begin(), values.end(), static_cast<T>(0),
+                                    [](T sum, T x){ return sum + x*x;});
         return std::sqrt(l);
     }
 
-    T distance_to(const Point<Size, T>& other) const { return (*this - other).length(); }
+    T distance_to(const Point& other) const { return (*this - other).length(); }
 
-    Point<Size, T>& normalize(const T target_len = 1.0f)
+    Point& normalize(const T target_len = 1.0f)
     {
         const T current_len = length();
         if (current_len == 0) throw std::logic_error("cannot normalize vector of length 0");
@@ -135,7 +126,7 @@ public:
         return *this;
     }
 
-    Point<Size, T>& cap_length(const T max_len)
+    Point& cap_length(const T max_len)
     {
         assert(max_len > 0);
 
@@ -153,11 +144,16 @@ public:
                                [](const std::string& s, const T& x){return s + ", "s + std::to_string(x);}) + "]";
     }
 };
+using Point2D = Point<2, float>;
+using Point3D = Point<3, float>;
+
+
+
+
 // our 3D-coordinate system will be tied to the airport: the runway is parallel to the x-axis, the z-axis
 // points towards the sky, and y is perpendicular to both thus,
 // {1,0,0} --> {.5,.5}   {0,1,0} --> {-.5,.5}   {0,0,1} --> {0,1}
-template<typename T>
-inline Point<2, T> project_2D(const Point<3, T>& p)
+inline Point2D project_2D(const Point3D& p)
 {
     return { .5f * p.x() - .5f * p.y(), .5f * p.x() + .5f * p.y() + p.z() };
 }

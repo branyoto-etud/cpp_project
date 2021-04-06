@@ -35,7 +35,7 @@ void keyboard(unsigned char key, int, int);
 void toggle_fullscreen();
 void change_zoom(float factor);
 void change_framerate(int amount);
-void change_framerate_modifier(double alpha);
+void change_framerate_modifier(double delta);
 void init_gl(int argc, char** argv, const char* title);
 void pause();
 void loop();

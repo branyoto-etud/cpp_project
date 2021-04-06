@@ -15,8 +15,8 @@ std::unique_ptr<Aircraft> AircraftFactory::create_aircraft(Tower& tower)
 {
     const std::string flight_number = new_flight_number();
     const float angle       = (std::rand() % 1000) * 2 * 3.141592f / 1000.f; // random angle between 0 and 2pi
-    const Point<3, float> start     = Point<3, float> { std::sin(angle), std::cos(angle), 0.f } * 3 + Point<3, float> { 0.f, 0.f, 2.f };
-    const Point<3, float> direction = (-start).normalize();
+    const Point3D start     = Point3D { std::sin(angle), std::cos(angle), 0.f } * 3 + Point3D { 0.f, 0.f, 2.f };
+    const Point3D direction = (-start).normalize();
     const AircraftType& type = *aircraft_types[std::rand() % aircraft_types.size()];
 
     return std::make_unique<Aircraft>(type, flight_number, start, direction, tower);
@@ -49,26 +49,26 @@ AircraftFactory::AircraftFactory(std::ifstream& input)
         aircraft_types.emplace_back(parse_line(line));
     }
 }
-std::unique_ptr<AircraftType> AircraftFactory::parse_line(std::string& mediaPath)
+std::unique_ptr<AircraftType> AircraftFactory::parse_line(std::string& line)
 {
     size_t pos = 0;
     try {
-        const float gSpeed = std::stof (mediaPath, &pos);
-        mediaPath.erase(0, pos+1);
+        const float gSpeed = std::stof (line, &pos);
+        line.erase(0, pos + 1);
 
-        const float aSpeed = std::stof (mediaPath, &pos);
-        mediaPath.erase(0, pos+1);
+        const float aSpeed = std::stof (line, &pos);
+        line.erase(0, pos + 1);
 
-        const float acc = std::stof (mediaPath, &pos);
-        mediaPath.erase(0, pos+1);
+        const float acc = std::stof (line, &pos);
+        line.erase(0, pos + 1);
 
-        const float consumption = std::stof (mediaPath, &pos);
-        mediaPath.erase(0, pos+1);
+        const float consumption = std::stof (line, &pos);
+        line.erase(0, pos + 1);
 
-        const int fuel = std::stoi (mediaPath, &pos);
-        mediaPath.erase(0, pos+1);
+        const int fuel = std::stoi (line, &pos);
+        line.erase(0, pos + 1);
 
-        return std::make_unique<AircraftType>(gSpeed, aSpeed, acc, consumption, fuel, MediaPath {mediaPath});
+        return std::make_unique<AircraftType>(gSpeed, aSpeed, acc, consumption, fuel, MediaPath {line});
     } catch (const std::invalid_argument& e) {
         throw std::invalid_argument{"File format invalid. The should be 'float float float string"};
     }

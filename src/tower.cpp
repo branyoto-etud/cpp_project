@@ -7,10 +7,10 @@
 
 WaypointQueue Tower::get_circle()
 {
-    return { Waypoint { Point<3, float> { -1.5f, -1.5f, .5f }, wp_air },
-             Waypoint { Point<3, float> { 1.5f, -1.5f, .5f }, wp_air },
-             Waypoint { Point<3, float> { 1.5f, 1.5f, .5f }, wp_air },
-             Waypoint { Point<3, float> { -1.5f, 1.5f, .5f }, wp_air } };
+    return { Waypoint { Point3D { -1.5f, -1.5f, .5f }, wp_air },
+             Waypoint { Point3D { 1.5f, -1.5f, .5f }, wp_air },
+             Waypoint { Point3D { 1.5f, 1.5f, .5f }, wp_air },
+             Waypoint { Point3D { -1.5f, 1.5f, .5f }, wp_air } };
 }
 
 WaypointQueue Tower::get_instructions(Aircraft& aircraft)

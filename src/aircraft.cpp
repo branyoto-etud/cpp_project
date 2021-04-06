@@ -9,11 +9,11 @@ void Aircraft::turn_to_waypoint()
 {
     if (!waypoints.empty())
     {
-        Point<3, float> target = waypoints[0];
+        Point3D target = waypoints[0];
         if (waypoints.size() > 1)
         {
             const float d   = (waypoints[0] - pos).length();
-            const Point<3, float> W = (waypoints[0] - waypoints[1]).normalize(d / 2.0f);
+            const Point3D W = (waypoints[0] - waypoints[1]).normalize(d / 2.0f);
             target += W;
         }
         auto t = target - pos - speed;
@@ -21,7 +21,7 @@ void Aircraft::turn_to_waypoint()
     }
 }
 
-void Aircraft::turn(Point<3, float>& direction)
+void Aircraft::turn(Point3D& direction)
 {
     (speed += direction.cap_length(type.max_accel)).cap_length(max_speed());
 }
@@ -30,7 +30,7 @@ unsigned int Aircraft::get_speed_octant() const
 {
     const float speed_len = speed.length();
     if (speed_len <= 0) return 0;
-    const Point<3, float> norm_speed{speed * (1.0f / speed_len)};
+    const Point3D norm_speed{speed * (1.0f / speed_len)};
     const float angle =
             (norm_speed.y() > 0) ? 2.0f * 3.141592f - std::acos(norm_speed.x()) : std::acos(norm_speed.x());
     // partition into NUM_AIRCRAFT_TILES equal pieces
@@ -74,18 +74,19 @@ bool Aircraft::operate_landing_gear()
 
 // Move the aircraft and return True if the aircraft need to be destroyed
 // A destruction appear in 2 cases: No fuel left and lifting off.
-bool Aircraft::move(double alpha)
+bool Aircraft::move(double dt)
 {
-    assert(alpha > 0);
+    assert(dt > 0);
     if (fuel <= 0)                                                          // Crash if no fuel
         throw AircraftCrash {flight_number, pos, speed, out_of_fuel};
     if (!is_on_ground()) {                                                  // Decrease fuel level
-        fuel -= alpha * type.fuel_consumption * (speed.length() / max_speed());
+        fuel -= dt * type.fuel_consumption * (speed.length() / max_speed());
     }
     if (waypoints.empty()) {                                                // Update path when empty
         for (const auto& wp: control.get_instructions(*this))
         {
-            add_waypoint<false>(wp);
+            const bool front = false;
+            add_waypoint<front>(wp);
         }
     }
     if (is_circling()) {                                                    // If making circles
@@ -94,7 +95,7 @@ bool Aircraft::move(double alpha)
     }
     if (is_at_terminal) return false;                                       // If serviced don't move
     turn_to_waypoint();                                                     // Rotate
-    pos += speed * (float)alpha;                                            // Move
+    pos += speed * (float)dt;                                            // Move
 
     if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)  // If close enough, remove the waypoint
     {
