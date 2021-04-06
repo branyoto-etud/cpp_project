@@ -8,9 +8,11 @@
 #include <numeric>
 #include <functional>
 
+template<typename ... T>
+using Arithmetic = std::enable_if_t<(std::is_arithmetic<std::remove_reference_t<T>>::value && ...), int>;
+
 template<size_t Size, typename T>
 class Point {
-    
 static_assert(Size >= 1);
 friend std::ostream& operator<<(std::ostream& stream, const Point& point) {
     return stream << point.to_string();
@@ -18,16 +20,16 @@ friend std::ostream& operator<<(std::ostream& stream, const Point& point) {
 public:
     std::array<T, Size> values {};
 
-    template<typename ... U>
-    Point(T x, U&& ... val) : values {x, std::forward<U>(val)...} {
-        static_assert(sizeof...(U)+1 == Size);
-    }
     Point() {}
     Point(Point& other) : values {other.values} {}
     Point(Point&& other) : values {other.values} {}
     Point(const Point& other) : values {other.values} {}
     Point(const Point&& other) : values {other.values} {}
 
+    template<typename ... U, typename = Arithmetic<U...>>
+    Point(U&& ... val) : values {std::forward<U>(val)...} {
+        static_assert(sizeof...(U) == Size);
+    }
 
     T& x() { return values[0]; }
     T x() const { return values[0]; }
