@@ -21,8 +21,7 @@ TowerSimulation::TowerSimulation(int argc, char** argv) :
     data_path = help && argc > 2 ? argv[2] : argc > 1 ? argv[1] : "";
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     GL::init_gl(argc, argv, "Airport Tower Simulation");
-//    aircraft_manager = std::make_unique<AircraftManager>();
-    aircraft_manager = new AircraftManager();
+    aircraft_manager = std::make_unique<AircraftManager>();
 
     create_keystrokes();
 }
@@ -69,15 +68,9 @@ void TowerSimulation::display_help()
 
 void TowerSimulation::init_airport()
 {
-    assert(airport == nullptr);
-//    airport = std::make_unique<Airport>(one_lane_airport, Point3D { 0.f, 0.f, 0.f },
-//                            new img::Image { one_lane_airport_sprite_path.get_full_path() }, *aircraft_manager);
-//    GL::move_queue.emplace(airport.get());
-    airport = new Airport(one_lane_airport, Point3D { 0.f, 0.f, 0.f },
+    airport = std::make_unique<Airport>(one_lane_airport, Point3D { 0.f, 0.f, 0.f },
                             new img::Image { one_lane_airport_sprite_path.get_full_path() }, *aircraft_manager);
-    GL::move_queue.emplace(airport);
-
-    assert(airport != nullptr);
+    GL::move_queue.emplace(airport.get());
 }
 
 void TowerSimulation::launch()
@@ -89,7 +82,7 @@ void TowerSimulation::launch()
         return;
     }
     init_airport();
-//    aircraft_factory = data_path.empty() ? std::make_unique<AircraftFactory>() : AircraftFactory::LoadTypes(MediaPath {data_path});
-    aircraft_factory = data_path.empty() ? new AircraftFactory() : AircraftFactory::LoadTypes(MediaPath {data_path}).get();
+    aircraft_factory = data_path.empty() ? std::make_unique<AircraftFactory>() : AircraftFactory::LoadTypes(MediaPath {data_path});
+
     GL::loop();
 }

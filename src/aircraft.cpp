@@ -97,8 +97,7 @@ bool Aircraft::move(double dt)
     if (is_circling()) {                                                    // If making circles
         auto wp = control.reserve_terminal(*this);                          // Try to update the path
         if (!wp.empty()) {
-            throw AircraftCrash {flight_number, pos, speed, bad_landing};
-            waypoints = wp;                                    // If path to terminal update the path
+            waypoints = wp;                                                 // If path to terminal update the path
         }
     }
     if (is_at_terminal) return false;                                       // If serviced don't move

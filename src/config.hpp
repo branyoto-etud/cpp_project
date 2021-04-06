@@ -21,7 +21,7 @@ constexpr unsigned char NUM_AIRCRAFT_TILES = 8;
 // size of the plane-sprite on screen
 constexpr float PLANE_TEXTURE_DIM = 0.2f;
 // default number of ticks per second
-constexpr unsigned int DEFAULT_TICKS_PER_SEC = 16u;
+constexpr unsigned int DEFAULT_TICKS_PER_SEC = 30u;
 // default zoom factor
 constexpr float DEFAULT_ZOOM = 2.0f;
 // default window dimensions
