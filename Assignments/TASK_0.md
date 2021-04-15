@@ -25,7 +25,7 @@ Quelles informations s'affichent dans la console ?
 
 Ajoutez maintenant quatre avions d'un coup dans la simulation.
 Que fait chacun des avions ?
-> They fly until they can land (only one aircraft can land at the same time)
+> They fly until they can land (only 3 aircrafts can land at the same time)
 
 ## B- Analyse du code
 
@@ -76,7 +76,7 @@ Quelles classes et fonctions sont impliquées dans la génération du chemin d'u
 
 Quel conteneur de la librairie standard a été choisi pour représenter le chemin ?
 Expliquez les intérêts de ce choix.
-> une queue parce qu'on veut ajouter des points à la fin et pouvoir les récupérer dans l'ordre au début
+> une queue parce qu'on veut ajouter des points à la fin et pouvoir les récupérer à partir du début
 
 ## C- Bidouillons !
 
@@ -91,8 +91,8 @@ Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Q
 Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
 > GL::tick_per_frame iniialisé avec config::DEFAULT_TICKS_PER_SEC.
 > ajout de 2 inputs : 'i' pour incrémenter de 1 le framerate et 'd' pour décrémenter de 1 le framerate.
-> Si tck_per_sec passe à 0, dans la fonction GL::timer il y a une division par 0  
-> Poura ajouter la pause, j'ajoute encore un input 'p' permettant de passer entre le framerate = 0 et 
+> Si tick_per_sec passe à 0, dans la fonction GL::timer il y a une division par 0  
+> Pour ajouter la pause, j'ajoute encore un input 'p' permettant de passer entre le framerate = 0 et 
 > celui qu'il y avait avant la pause (ajout d'une variable statique)
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
@@ -101,11 +101,10 @@ Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pa
 4) Lorsqu'un avion a décollé, il réattérit peu de temps après.
 Faites en sorte qu'à la place, il soit retiré du programme.\
 Indices :\
-A quel endroit pouvez-vous savoir que l'avion doit être supprimé ? Aircraft::move\
-Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonction ? parce que le seul qui own les avions est GL::move_queue\
-A quel endroit de la callstack pourriez-vous le faire à la place ? GL::timer\
-Que devez-vous modifier pour transmettre l'information de la première à la seconde fonction ? un bool
-> ajout d'une boucle permettant de supprimer des avions dans timer
+A quel endroit pouvez-vous savoir que l'avion doit être supprimé ? -> Aircraft::move\
+Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonction ? -> parce que le seul qui own les avions est GL::move_queue\
+A quel endroit de la callstack pourriez-vous le faire à la place ? -> GL::timer\
+Que devez-vous modifier pour transmettre l'information de la première à la seconde fonction ? -> un bool
 
 5) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
 Il faut également penser à le supprimer de cette liste avant de le détruire.
@@ -128,6 +127,8 @@ Modifiez le code afin d'utiliser un conteneur STL plus adapté. Normalement, à 
 
 2) En regardant le contenu de la fonction `void Aircraft::turn(Point3D direction)`, pourquoi selon-vous ne sommes-nous pas passer par une réference ?
 Pensez-vous qu'il soit possible d'éviter la copie du `Point3D` passé en paramètre ?
+> Parce qu'on veut appliquer un traitement à `direction` avant de l'ajouter à la vitesse.
+> C'est possible mais pour ça il faudrait faire les traitements différement.
 
 ## E- Bonus
 
@@ -145,4 +146,13 @@ Cependant, si le programme se met à ramer et que la callback de glutTimerFunc e
 Passez ensuite cette valeur à la fonction `move` des `DynamicObject`, et utilisez-la pour calculer les nouvelles positions de chaque avion.
 Vérifiez maintenant en exécutant le programme que, lorsque augmentez le framerate du programme, vous n'augmentez pas la vitesse de la simulation.
 
+> Pour faire ça j'ai donc ajouté une variable dans le .hpp permettant de se souvenir de la valeur précédente du timer.
+> Ensuite dans timer je calcule la différence entre l'instant précédent et l'instant actuel que je multiplie par une constante (~1/60)
+> pour obtenir une simulation fluide.
+> Après je passe cette valeur au fonctions move qui vont donc l'utiliser pour : déplacer l'avion, s'occuper de l'avions dans un terminal et  
+
 Ajoutez ensuite deux nouveaux inputs permettant d'accélérer ou de ralentir la simulation.
+
+> 'o' : permet d'accelerer et 'l' permet de ralentir la vitesse de simulation.
+
+
