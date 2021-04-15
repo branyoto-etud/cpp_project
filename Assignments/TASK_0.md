@@ -149,7 +149,7 @@ Vérifiez maintenant en exécutant le programme que, lorsque augmentez le framer
 > Pour faire ça j'ai donc ajouté une variable dans le .hpp permettant de se souvenir de la valeur précédente du timer.
 > Ensuite dans timer je calcule la différence entre l'instant précédent et l'instant actuel que je multiplie par une constante (~1/60)
 > pour obtenir une simulation fluide.
-> Après je passe cette valeur au fonctions move qui vont donc l'utiliser pour : déplacer l'avion, s'occuper de l'avions dans un terminal et  
+> Après je passe cette valeur au fonctions move qui vont donc l'utiliser pour : déplacer l'avion et s'occuper de l'avions dans un terminal
 
 Ajoutez ensuite deux nouveaux inputs permettant d'accélérer ou de ralentir la simulation.
 
