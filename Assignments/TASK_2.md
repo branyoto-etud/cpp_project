@@ -101,7 +101,6 @@ Modifiez le code de `Terminal` afin que les avions qui n'ont pas suffisamment d'
 Testez votre programme pour vérifier que certains avions attendent bien indéfiniment au terminal.
 Si ce n'est pas le cas, essayez de faire varier la constante `200`.
 > Ca fonctionne bien.
-> Todo : Ajouter un fichier pour tester ce cas. (il y aura beaucoup de crash)
 
 2. Dans `AircraftManager`, implémentez une fonction `get_required_fuel`, qui renvoie la somme de l'essence manquante (le plein, soit `3'000`, moins la quantité courante d'essence) pour les avions vérifiant les conditions suivantes :\
 \- l'avion est bientôt à court d'essence\
