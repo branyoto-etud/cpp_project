@@ -60,7 +60,7 @@ void TowerSimulation::create_keystrokes()
 void TowerSimulation::display_help()
 {
     std::cout << "This is an airport tower simulator" << std::endl
-              << "the following keysstrokes have meaning:" << std::endl;
+              << "the following keystrokes have meaning:" << std::endl;
 
     for (const auto& [key, action] : GL::keystrokes) { std::cout << key << ' '; }
     std::cout << std::endl;

@@ -6,6 +6,7 @@
 
 `TowerSimulation::display_help()` est chargé de l'affichage des touches disponibles.
 Dans sa boucle, remplacez `const auto& ks_pair` par un structured binding adapté.
+> On peut utiliser `const auto& [key, action]` 
 
 ### B - Algorithmes divers
 
@@ -18,6 +19,8 @@ Remplacez votre boucle avec un appel à `std::remove_if`.
 2. Pour des raisons de statistiques, on aimerait bien être capable de compter tous les avions de chaque airline.
 A cette fin, rajoutez des callbacks sur les touches `0`..`7` de manière à ce que le nombre d'avions appartenant à `airlines[x]` soit affiché en appuyant sur `x`.
 Rendez-vous compte de quelle classe peut acquérir cet information. Utilisez la bonne fonction de `<algorithm>` pour obtenir le résultat.
+> La classe pouvant compter les avions appartenant à une ligne est AircraftManager. J'utilise std::count_if pour compter
+> les avions dont la ligne commence par le code de l'airline
 
 ### C - Relooking de Point3D
 
@@ -27,8 +30,11 @@ Remplacez le tableau `Point3D::values` par un `std::array` et puis,
 remplacez le code des fonctions suivantes en utilisant des fonctions de `<algorithm>` / `<numeric>`:
 
 1. `Point3D::operator*=(const float scalar)`
+> Utilisation de std::transform(src_start, src_end, dest_start, fnct)
 2. `Point3D::operator+=(const Point3D& other)` et `Point3D::operator-=(const Point3D& other)`
+> Utilisation de std::transform(src1_start, src1_end, src2_start, dest_start, fnct)
 3. `Point3D::length() const`
+> Utilisation de std::accumulate(start, end, initial_value, fnct)
 
 ---
 
@@ -44,6 +50,7 @@ La notation tiendra compte de votre utilisation judicieuse de la librairie stand
 Ajoutez un attribut `fuel` à `Aircraft`, et initialisez-le à la création de chaque avion avec une valeur aléatoire comprise entre `150` et `3'000`.\
 Décrémentez cette valeur dans `Aircraft::update` si l'avion est en vol.\
 Lorsque cette valeur atteint 0, affichez un message dans la console pour indiquer le crash, et faites en sorte que l'avion soit supprimé du manager.
+> Suppression -> retourner `true` dans move/update
 
 N'hésitez pas à adapter la borne `150` - `3'000`, de manière à ce que des avions se crashent de temps en temps.
 
@@ -80,8 +87,10 @@ D - NotReserved / Fuel: 150
 C - NotReserved / Fuel: 300
 ```
 
-Faites en sort que votre `AircraftManager` stocke les avions dans un `vector<unique_ptr<Aircraft>>` ou `list<unique_ptr<Aircraft>>` et triez le au debut du `move()` (ou `update()`) de l'`AircraftManager` (en utilisant la bonne fonction de la STL) pour qu'ils sont traités en bon ordre après.
-
+Faites en sort que votre `AircraftManager` stocke les avions dans un `vector<unique_ptr<Aircraft>>` ou `list<unique_ptr<Aircraft>>` et triez le au debut du `move()` (ou `update()`) de l'`AircraftManager` (en utilisant la bonne fonction de la STL) pour qu'ils **soient** traités en bon ordre après.
+> J'utilise l'opérateur de comparaison (par ce que de toute façon c'est le seul moment ou on souhaite comparer 
+> 2 Aircraft mais on pourrait tout à fait déclarer une autre fonction qui fait la même chose).
+> Et j'utilise std::sort pour trier les avions.
 
 ### C - Réapprovisionnement 
 
@@ -91,6 +100,8 @@ Afin de pouvoir repartir en toute sécurité, les avions avec moins de `200` uni
 Modifiez le code de `Terminal` afin que les avions qui n'ont pas suffisamment d'essence restent bloqués.\
 Testez votre programme pour vérifier que certains avions attendent bien indéfiniment au terminal.
 Si ce n'est pas le cas, essayez de faire varier la constante `200`.
+> Ca fonctionne bien.
+> Todo : Ajouter un fichier pour tester ce cas. (il y aura beaucoup de crash)
 
 2. Dans `AircraftManager`, implémentez une fonction `get_required_fuel`, qui renvoie la somme de l'essence manquante (le plein, soit `3'000`, moins la quantité courante d'essence) pour les avions vérifiant les conditions suivantes :\
 \- l'avion est bientôt à court d'essence\
@@ -99,7 +110,7 @@ Si ce n'est pas le cas, essayez de faire varier la constante `200`.
 3. Ajoutez deux attributs `fuel_stock` et `ordered_fuel` dans la classe `Airport`, que vous initialiserez à 0.\
 Ajoutez également un attribut `next_refill_time`, aussi initialisé à 0.\
 Enfin, faites en sorte que la classe `Airport` ait accès à votre `AircraftManager` de manière à pouvoir l'interroger.
-
+   
 4. Ajoutez une fonction `refill` à la classe `Aircraft`, prenant un paramètre `fuel_stock` par référence non-constante.
 Cette fonction rempliera le réservoir de l'avion en soustrayant ce dont il a besoin de `fuel_stock`.
 Bien entendu, `fuel_stock` ne peut pas devenir négatif.\
@@ -116,16 +127,25 @@ Elle devra appeler la fonction `refill` sur l'avion actuellement au terminal, si
     \* La quantité d'essence reçue, la quantité d'essence en stock et la nouvelle quantité d'essence commandée sont affichées dans la console.\
 \- Sinon `next_refill_time` est décrémenté.\
 \- Les avions de chacun des terminaux sont réapprovionnés s'ils doivent l'être.
+> Le ""soucis"" de çette façon de faire c'est que du coup on commande beaucoup de surplus 
+> par rapport à ce qu'on utilise vu que au début beaucoup d'avions ont besoin de fuel mais 
+> que le temps qu'ils attérissent, soient traité et reparte on a déjà commandé le prochain
+> camion citerne. La façon de corriger ça serait de garder en mémoire ceux ayant déjà indiqué 
+> leur besoin en fuel pour ne pas les commander la prochaine fois (ce que je n'ai pas fait)
 
 ### D - Paramétrage (optionnel)
 
 Pour le moment, tous les avions ont la même consommation d'essence (1 unité / trame) et la même taille de réservoir (`3'000`).
 
 1. Arrangez-vous pour que ces deux valeurs soient maintenant déterminées par le type de chaque avion (`AircraftType`).
+> Fait et donc on ajoute deux nouvelles valeurs dans les fichiers de config des avions: la consommation et la quantité maximum
 
 2. Pondérez la consommation réelle de l'avion par sa vitesse courante.
 La consommation définie dans `AircraftType` ne s'appliquera que lorsque l'avion est à sa vitesse maximale.
+> Fait on divise la vitesse actuelle par la vitesse maximale puis on multiplie le résultat à la consommation
 
 3. Un avion indique qu'il a besoin d'essence lorsqu'il a moins de `200` unités.
 Remplacez cette valeur pour qu'elle corresponde à la quantité consommée en 10s à vitesse maximale.\
 Si vous n'avez pas fait la question bonus de TASK_0, notez bien que la fonction `update` de chaque avion devrait être appelée `DEFAULT_TICKS_PER_SEC` fois par seconde. 
+> Fait, dans AircraftType il y a une fonction permettant de calculer la consommation pour 10 secondes à vitesse maximale.
+> Elle n'est pas un champs puisque le framerate et la vitesse de simulation peuvent changer.

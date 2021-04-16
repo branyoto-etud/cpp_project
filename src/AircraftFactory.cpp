@@ -70,6 +70,6 @@ std::unique_ptr<AircraftType> AircraftFactory::parse_line(std::string& line)
 
         return std::make_unique<AircraftType>(gSpeed, aSpeed, acc, consumption, fuel, MediaPath {line});
     } catch (const std::invalid_argument& e) {
-        throw std::invalid_argument{"File format invalid. The should be 'float float float string"};
+        throw std::invalid_argument{"File format invalid. The should be 'float float float float int string"};
     }
 }
